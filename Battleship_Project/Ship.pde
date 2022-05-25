@@ -174,8 +174,22 @@ class Ship{
     //}
   }
   
-  ArrayList<Coords> Esuggest(){
-    
+  ArrayList<Coords> Esuggest(boolean r){
+    if (r){
+      int D = int(random(0, 4));
+      if (D == 0){
+        directionUP = true; directionDW = false; directionLL = false; directionRR = false;
+      }
+      if (D == 1){
+        directionUP = false; directionDW = true; directionLL = false; directionRR = false;
+      }
+      if (D == 2){
+        directionUP = false; directionDW = false; directionLL = true; directionRR = false;
+      }
+      if (D == 3){
+        directionUP = false; directionDW = false; directionLL = false; directionRR = true;
+      }
+    }
       if (type == AIRCRAFT_CARRIER){
         headx = Erollx(11, 15); heady = EFrolly(11, 15);
       }
@@ -195,11 +209,8 @@ class Ship{
         headx = Erollx(3, 23); heady = EFrolly(3, 23);
       }
       if (type == PATROL_BOAT){
-        if (type == FRIGATE){
           headx = Erollx(0, 26); heady = EFrolly(0, 26);
-        }
       }
-    
     int X = this.headx; int Y = this.heady; ArrayList<Coords> A = new ArrayList<Coords>();
     if (directionLL){
       for (int i = 0; i < this.Length; i++){
@@ -268,9 +279,9 @@ class Ship{
     return A;
   }
   void EDo(){
-    ArrayList<Coords> Q = Esuggest(); boolean z = EOverlap(Q);
+    ArrayList<Coords> Q = Esuggest(false); boolean z = EOverlap(Q);
     while(z){
-      ArrayList<Coords> R = Esuggest();
+      ArrayList<Coords> R = Esuggest(true);
       if (!EOverlap(R)){
         for (int i = 0; i < R.size(); i++){
           Q.clear();
