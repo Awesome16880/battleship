@@ -174,22 +174,7 @@ class Ship{
     //}
   }
   
-  ArrayList<Coords> Esuggest(boolean r){
-    if (r){
-      int D = int(random(0, 4));
-      if (D == 0){
-        directionUP = true; directionDW = false; directionLL = false; directionRR = false;
-      }
-      if (D == 1){
-        directionUP = false; directionDW = true; directionLL = false; directionRR = false;
-      }
-      if (D == 2){
-        directionUP = false; directionDW = false; directionLL = true; directionRR = false;
-      }
-      if (D == 3){
-        directionUP = false; directionDW = false; directionLL = false; directionRR = true;
-      }
-    }
+  ArrayList<Coords> Esuggest(){
       if (type == AIRCRAFT_CARRIER){
         headx = Erollx(11, 15); heady = EFrolly(11, 15);
       }
@@ -209,7 +194,9 @@ class Ship{
         headx = Erollx(3, 23); heady = EFrolly(3, 23);
       }
       if (type == PATROL_BOAT){
+        if (type == FRIGATE){
           headx = Erollx(0, 26); heady = EFrolly(0, 26);
+        }
       }
     int X = this.headx; int Y = this.heady; ArrayList<Coords> A = new ArrayList<Coords>();
     if (directionLL){
@@ -278,10 +265,10 @@ class Ship{
     }
     return A;
   }
-  void EDo(){
-    ArrayList<Coords> Q = Esuggest(false); boolean z = EOverlap(Q);
+  void EDo0(ArrayList<Coords> Q){
+    boolean z = EOverlap(Q);
     while(z){
-      ArrayList<Coords> R = Esuggest(true);
+      ArrayList<Coords> R = Esuggest();
       if (!EOverlap(R)){
         for (int i = 0; i < R.size(); i++){
           Q.clear();
@@ -294,6 +281,10 @@ class Ship{
        R.clear(); 
       }
     }
+  }
+  void EDo(){
+    ArrayList<Coords> Q = Esuggest(); 
+    EDo0(Q);
     for(int i = 0; i < Q.size(); i++){
       suggested.add(Q.get(i));
     }
@@ -317,10 +308,8 @@ class Ship{
     }
     else{
       suggested.clear();
-      println("K");
     }
   }
-  
   boolean EOverlap(ArrayList<Coords> q){ //true for overlap, false if it's good to go
     for (int r = 0; r < 26; r++){
       for (int c = 0; c < 26; c++){
@@ -328,8 +317,7 @@ class Ship{
         Coords coord = bb.coords;
         for (int k = 0; k < q.size(); k++){
           Coords j = q.get(k);
-          if ((coord.occupied == true || bb.occupied == true) && j.x == coord.x && j.y == coord.y){
-            println("PROBLEM");
+          if ((coord.occupied == true || bb.occupied == true) && (j.x == coord.x && j.y == coord.y)){
             return true;
           }
         }
