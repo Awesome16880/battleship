@@ -8,7 +8,14 @@ class Cruiser extends Ship{
     this.headx = Erollx();
     this.heady = EFrolly();
     this.Length = 6;
-    super.EDo();
+    boolean z = super.EDo();
+    while (z){
+      boolean zz = super.EDo();
+      if (zz == false){
+        z = false;
+        break;
+      }
+    }
   }
   int Erollx(){
     int A = int(random(6, 20)); int B = A * 21; int C = B + 5; return C;

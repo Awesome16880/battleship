@@ -9,7 +9,14 @@ class Submarine extends Ship{
     this.headx = Erollx();
     this.heady = EFrolly();
     this.Length = 3;
-    super.EDo();
+    boolean z = super.EDo();
+    while (z){
+      boolean zz = super.EDo();
+      if (zz == false){
+        z = false;
+        break;
+      }
+    }
   }
   int Erollx(){
     int A = int(random(3, 23)); int B = A * 21; int C = B + 5; return C;

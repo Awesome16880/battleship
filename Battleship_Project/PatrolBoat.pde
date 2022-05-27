@@ -8,7 +8,14 @@ class PatrolBoat extends Ship{
     this.headx = Erollx();
     this.heady = EFrolly();
     this.Length = 1;
-    super.EDo();
+    boolean z = super.EDo();
+    while (z){
+      boolean zz = super.EDo();
+      if (zz == false){
+        z = false;
+        break;
+      }
+    }
   }
   int Erollx(){
     int A = int(random(0, 26)); int B = A * 21; int C = B + 5; return C;

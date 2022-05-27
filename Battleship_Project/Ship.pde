@@ -271,8 +271,8 @@ class Ship{
     }
     return A;
   }
-  void EDo(){
-    ArrayList<Coords> Q = Esuggest(false); //q
+  boolean EDo(){ //return true if there's a problem, false if it's good to go
+    ArrayList<Coords> Q = Esuggest(false); int III = 0; //III is being used to ensure that the while loop doesn't go on forever. Sadly it's not working
     for (int a = 0; a < Q.size(); a++){
       Q.get(a).type = this.type;
     }
@@ -282,14 +282,18 @@ class Ship{
       ArrayList<Coords> R = Esuggest(true);
       println("Q"); println(Q.size());
       for (int p = 0; p < Q.size(); p++){
-      String s = Q.get(p).toString();
-      println(s);
-    }
-    println("R"); println(R.size());
-    for (int p = 0; p < R.size(); p++){
-      String s = R.get(p).toString();
-      println(s);
-    }
+        String s = Q.get(p).toString();
+        println(s);
+      }
+      println("R"); println(R.size());
+      for (int p = 0; p < R.size(); p++){
+        String s = R.get(p).toString();
+        println(s);
+      }
+      if (III > 100){
+        z = false;
+        break;
+      }
       if (!EOverlap(R)){
         Q.clear();
         for (int i = 0; i < R.size(); i++){
@@ -299,9 +303,14 @@ class Ship{
         break;
       }
       else{
-       R.clear(); 
+        III++;
+        R.clear(); 
       }
     }
+    if (III > 100){
+      return true;
+    }
+    println(III + " III");
     for (int ii = 0; ii < Q.size(); ii++){
       Q.get(ii).type = this.type;
     }
@@ -310,7 +319,7 @@ class Ship{
       suggested.add(Q.get(i));
       suggested.get(i).occupied = true;
     }
-    if (EOverlap(suggested) == false){
+    //if (EOverlap(suggested) == false){
       for (int m = 0; m < suggested.size(); m++){
         occupied.add(suggested.get(m));
         Egrid.used.add(occupied.get(m));
@@ -324,19 +333,11 @@ class Ship{
       for (int o = 0; o < occupiedongrid.size(); o++){
         occupiedongrid.get(o).display_friendly();
       }
-    }
-    else{
-      suggested.clear();
-    }
-  }
-  boolean EcheckSize(ArrayList<Coords> q){ //return true if wrong size, false otherwise
-    int QQ = q.size();
-    if (this.Length != QQ){
-      return true;
-    }
-    else{
-      return false;
-    }
+    //}
+    //else{
+    //  suggested.clear();
+    //}
+    return false;
   }
   boolean EOverlap(ArrayList<Coords> q){ //true for overlap, false if it's good to go
     if (this.type == AIRCRAFT_CARRIER){
