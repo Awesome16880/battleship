@@ -282,14 +282,33 @@ class Ship{
       }
     }
   }
+  void EDo1(ArrayList<Coords> Q){
+    boolean z = EcheckSize(Q);
+    while(z){
+      ArrayList<Coords> R = Esuggest();
+      if (!EOverlap(R) && !EcheckSize(R)){
+        print("N");
+        for (int N = 0; N < R.size(); N++){
+          Q.clear();
+          Q.add(R.get(N));
+        }
+      }
+      else{
+        R.clear();
+      }
+    }
+  }
   void EDo(){
     ArrayList<Coords> Q = Esuggest(); 
     EDo0(Q);
+    EDo1(Q);
+    for (int ii = 0; ii < Q.size(); ii++){
+      Q.get(ii).type = this.type;
+    }
+    println(Q.size());
     for(int i = 0; i < Q.size(); i++){
       suggested.add(Q.get(i));
-    }
-    for (int ii = 0; ii < suggested.size(); ii++){
-      suggested.get(ii).occupied = true;
+      suggested.get(i).occupied = true;
     }
     if (EOverlap(suggested) == false){
       for (int m = 0; m < suggested.size(); m++){
@@ -308,6 +327,15 @@ class Ship{
     }
     else{
       suggested.clear();
+    }
+  }
+  boolean EcheckSize(ArrayList<Coords> q){ //return true if wrong size, false otherwise
+    int QQ = q.size();
+    if (this.Length != QQ){
+      return true;
+    }
+    else{
+      return false;
     }
   }
   boolean EOverlap(ArrayList<Coords> q){ //true for overlap, false if it's good to go
