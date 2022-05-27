@@ -33,6 +33,8 @@ void setup(){
   Fgrid = new Grid();
   Egrid.drawGridEnemy();
   Fgrid.drawGridFriendly();
+  Egrid.link(Egrid);
+  Fgrid.link(Fgrid);
   Egrid.Eplace();
   textSize(18);
   fill(0);

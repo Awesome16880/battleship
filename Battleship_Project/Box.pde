@@ -9,11 +9,20 @@ class Box{
   boolean Display; //use to hide enemy ships
   Coords coords;
   boolean occupied;
+  boolean useful;
+  Box west;
+  Box east;
+  Box north;
+  Box south;
   //int HP;
   
+  Box(){
+    useful = false;
+  }
   Box(int xx, int yy, int boxside, int statee, boolean Friendly){
     x = xx;
     y = yy;
+    useful = true;
     occupied = false;
     side = boxside;
     state = statee;

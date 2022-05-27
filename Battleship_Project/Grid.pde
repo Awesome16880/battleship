@@ -4,6 +4,7 @@ class Grid{
   int cols = 26;
   int side = 21;
   Box grid[][];
+  Box NULL;
   int enemystartx = 5;
   int offset = 50;
   int abcdefghijklmnopqrstuvwxyz = cols * side;
@@ -27,8 +28,43 @@ class Grid{
   ArrayList<Submarine> s = new ArrayList<Submarine>();
   
   Grid(){
+    NULL = new Box();
     //for used arraylist: 140 spaces occupied by ships 
     //for ships arraylist: keep track of the ships
+  }
+  void link(Grid G){
+    for (int r = 1; r < rows - 1; r++){
+      for (int c = 1; c < cols - 1; c++){
+        G.grid[r][c].west = G.grid[r][c - 1];
+        G.grid[r][c].east = G.grid[r][c + 1];
+        G.grid[r][c].north = G.grid[r - 1][c];
+        G.grid[r][c].south = G.grid[r + 1][c];
+      }
+    }
+    for (int c = 1; c < cols - 1; c++){
+      G.grid[0][c].west = G.grid[0][c - 1];
+      G.grid[0][c].east = G.grid[0][c + 1];
+      G.grid[0][c].north = G.NULL;
+      G.grid[0][c].south = G.grid[1][c];
+      G.grid[rows - 1][c].west = G.grid[rows - 1][c - 1];
+      G.grid[rows - 1][c].east = G.grid[rows - 1][c + 1];
+      G.grid[rows - 1][c].north = G.grid[rows - 2][c];
+      G.grid[rows - 1][c].south = G.NULL;
+    }
+    for (int r = 1; r < rows - 1; r++){
+      G.grid[r][0].west = G.NULL;
+      G.grid[r][0].east = G.grid[r][1];
+      G.grid[r][0].north = G.grid[r - 1][0];
+      G.grid[r][0].south = G.grid[r + 1][0];
+      G.grid[r][cols - 1].west = G.grid[r][cols - 2];
+      G.grid[r][cols - 1].east = G.NULL;
+      G.grid[r][cols - 1].north = G.grid[r - 1][cols - 1];
+      G.grid[r][cols - 1].south = G.grid[r + 1][cols - 1];
+    }
+    G.grid[0][0].west = G.NULL; G.grid[0][0].north = G.NULL; G.grid[0][0].east = G.grid[0][1]; G.grid[0][0].south = G.grid[1][0];
+    G.grid[rows - 1][cols - 1].west = G.grid[rows - 1][cols - 2]; G.grid[rows - 1][cols - 1].east = G.NULL; G.grid[rows - 1][cols - 1].north = G.grid[rows - 2][cols - 1]; G.grid[rows - 1][cols - 1].south = G.NULL;
+    G.grid[rows - 1][0].west = G.NULL; G.grid[rows - 1][0].east = G.grid[rows - 1][1]; G.grid[rows - 1][0].north = G.grid[rows - 2][0]; G.grid[rows - 1][0].south = G.NULL;
+    G.grid[0][cols - 1].west = G.grid[0][cols - 2]; G.grid[0][cols - 1].east = G.NULL; G.grid[0][cols - 1].north = G.NULL; G.grid[0][cols - 1].south = G.grid[1][cols - 1];
   }
   void drawGridEnemy(){
     int x = enemystartx;
@@ -48,7 +84,7 @@ class Grid{
       }
       y = y + side;
       x = enemystartx;
-    }  
+    }
   }
   void drawGridFriendly(){
     int x = friendlystartx;
