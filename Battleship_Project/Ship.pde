@@ -274,6 +274,9 @@ class Ship{
   }
   void EDo(){
     ArrayList<Coords> Q = Esuggest(false); //q
+    for (int a = 0; a < Q.size(); a++){
+      Q.get(a).type = this.type;
+    }
     println(Q.size() + "K");
     boolean z = EOverlap(Q); 
     while(z){
@@ -337,6 +340,9 @@ class Ship{
     }
   }
   boolean EOverlap(ArrayList<Coords> q){ //true for overlap, false if it's good to go
+    if (this.type == AIRCRAFT_CARRIER){
+      return false;
+    }
     for (int r = 0; r < 26; r++){
       for (int c = 0; c < 26; c++){
         Box bb = Egrid.access(Egrid, r, c);
