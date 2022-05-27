@@ -9,8 +9,7 @@ class Ship{
   //aircraft carrier, 11x1 with some pieces sticking out, normal ship #FFDB51 (bright gold)
   //submarine, 3x1, submarine #00FF00 (hide from view even when hit)
   
-  //fleet: 1 aircraft carrier, 1 battleship, 2 submarines, 4 cruisers,
-  //8 destroyers, 10 frigates, 16 patrol boats
+  //fleet: 1 of each
   
   
   int x; 
@@ -292,8 +291,8 @@ class Ship{
       println(s);
     }
       if (!EOverlap(R)){
+        Q.clear();
         for (int i = 0; i < R.size(); i++){
-          Q.clear();
           Q.add(R.get(i));
         }
         z = false;
