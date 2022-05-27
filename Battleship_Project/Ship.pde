@@ -174,7 +174,14 @@ class Ship{
     //}
   }
   
-  ArrayList<Coords> Esuggest(){
+  ArrayList<Coords> Esuggest(boolean N){
+    if (N){
+      int D = int(random(0, 4));
+      if (D == 0){directionUP = true; directionDW = false; directionLL = false; directionRR = false;}
+      else if (D == 1){directionUP = false; directionDW = true; directionLL = false; directionRR = false;}
+      else if (D == 2){directionUP = false; directionDW = false; directionLL = true; directionRR = false;}
+      else{directionUP = false; directionDW = false; directionLL = false; directionRR = true;}
+    }
       if (type == AIRCRAFT_CARRIER){
         headx = Erollx(11, 15); heady = EFrolly(11, 15);
       }
@@ -265,14 +272,22 @@ class Ship{
     }
     return A;
   }
-  void EDo0(ArrayList<Coords> Q){
-    for (int p = 0; p < Q.size(); p++){
+  void EDo(){
+    ArrayList<Coords> Q = Esuggest(false); //q
+    println(Q.size() + "K");
+    boolean z = EOverlap(Q); 
+    while(z){
+      ArrayList<Coords> R = Esuggest(true);
+      println("Q"); println(Q.size());
+      for (int p = 0; p < Q.size(); p++){
       String s = Q.get(p).toString();
       println(s);
     }
-    boolean z = EOverlap(Q);
-    while(z){
-      ArrayList<Coords> R = Esuggest();
+    println("R"); println(R.size());
+    for (int p = 0; p < R.size(); p++){
+      String s = R.get(p).toString();
+      println(s);
+    }
       if (!EOverlap(R)){
         for (int i = 0; i < R.size(); i++){
           Q.clear();
@@ -285,31 +300,10 @@ class Ship{
        R.clear(); 
       }
     }
-  }
-  void EDo1(ArrayList<Coords> Q){
-    boolean z = EcheckSize(Q);
-    while(z){
-      ArrayList<Coords> R = Esuggest();
-      if (!EOverlap(R) && !EcheckSize(R)){
-        print("N");
-        for (int N = 0; N < R.size(); N++){
-          Q.clear();
-          Q.add(R.get(N));
-        }
-      }
-      else{
-        R.clear();
-      }
-    }
-  }
-  void EDo(){
-    ArrayList<Coords> Q = Esuggest(); 
-    EDo0(Q);
-    EDo1(Q);
     for (int ii = 0; ii < Q.size(); ii++){
       Q.get(ii).type = this.type;
     }
-    println(Q.size());
+    //println(Q.size() + "AAAAAAAAAAAA");
     for(int i = 0; i < Q.size(); i++){
       suggested.add(Q.get(i));
       suggested.get(i).occupied = true;

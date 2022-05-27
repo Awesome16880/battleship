@@ -77,43 +77,34 @@ class Box{
     //use while in play, display all friendly ships
     if (state == BLACK){
       fill(#000000);
-      square(x, y, side);
     }
     else if (state == WHITE){
-      fill(#000000);
-      square(x, y, side);
+      fill(#FFFFFF);
     }
     else if (state == HIT){
       fill(#FF0000);
-      square(x, y, side);
     }
     else if (state == SHIP){
       fill(#B19CD9);
-      square(x, y, side);
     }
     else if (state == ARMOR){
       fill(#A9A9A9);
-      square(x, y, side);
     }
     else if (state == HEAVY_ARMOR){
       fill(#696969);
-      square(x, y, side);
     }
     else if (state == SUBMARINE){
       fill(#00FF00);
-      square(x, y, side);
     }
     else if (state == DESTROYER){
       fill(#0000FF);
-      square(x, y, side);
     }
     else if (state == FRIGATE){
       fill(#00FFFF);
-      square(x, y , side);
     }
     else{
       fill(#FFDB51);
-      square(x, y, side);
     }
+    square(x, y, side);
   }
 }
