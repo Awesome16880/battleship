@@ -24,7 +24,10 @@ class Coords{
     this(xx, yy, gridd);
     occupied = occupiedd;
   }
-
+  String toString(){
+    String s = "" + this.x + " " + this.y;
+    return s;
+  }
   
   Box link(Grid GG, Coords coords){
     for (int r = 0; r < 26; r++){

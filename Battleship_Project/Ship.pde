@@ -266,6 +266,10 @@ class Ship{
     return A;
   }
   void EDo0(ArrayList<Coords> Q){
+    for (int p = 0; p < Q.size(); p++){
+      String s = Q.get(p).toString();
+      println(s);
+    }
     boolean z = EOverlap(Q);
     while(z){
       ArrayList<Coords> R = Esuggest();
