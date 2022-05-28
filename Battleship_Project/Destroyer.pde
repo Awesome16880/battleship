@@ -9,13 +9,13 @@ class Destroyer extends Ship{
     this.heady = EFrolly();
     this.Length = 4;
     boolean z = super.EDo();
-    while (z){
-      boolean zz = super.EDo();
-      if (zz == false){
-        z = false;
-        break;
-      }
-    }
+    //while (z){
+    //  boolean zz = super.EDo();
+    //  if (zz == false){
+    //    z = false;
+    //    break;
+    //  }
+    //}
   }
   int Erollx(){
     int A = int(random(4, 22)); int B = A * 21; int C = B + 5; return C;

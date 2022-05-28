@@ -1,9 +1,9 @@
-class PatrolBoat extends Ship{
-  PatrolBoat(int xx, int yy, boolean F){
-    super(xx, yy, PATROL_BOAT, F);
+class HospitalShip extends Ship{
+  HospitalShip(int xx, int yy, boolean F){
+    super(xx, yy, HOSPITAL_SHIP, F);
   }
-  void EplacePatrolBoat(){
-    this.type = PATROL_BOAT;
+  void EplaceHospitalShip(){
+    this.type = HOSPITAL_SHIP;
     this.Friendly = false;
     this.headx = Erollx();
     this.heady = EFrolly();

@@ -9,7 +9,7 @@ class Ship{
   //aircraft carrier, 11x1 with some pieces sticking out, normal ship #FFDB51 (bright gold)
   //submarine, 3x1, submarine #00FF00 (hide from view even when hit)
   
-  //fleet: 1 of each
+  //fleet: 1 aircraft carrier, 1 battleship, 2 submarines, 4 cruisers, 8 destroyers, 10 frigates, 16 patrol boats
   
   
   int x; 
@@ -272,7 +272,8 @@ class Ship{
     return A;
   }
   boolean EDo(){ //return true if there's a problem, false if it's good to go
-    ArrayList<Coords> Q = Esuggest(false); int III = 0; //III is being used to ensure that the while loop doesn't go on forever. Sadly it's not working
+    ArrayList<Coords> Q = Esuggest(false); 
+    int III = 0; //III is being used to ensure that the while loop doesn't go on forever. Sadly it's not working
     for (int a = 0; a < Q.size(); a++){
       Q.get(a).type = this.type;
     }
@@ -280,6 +281,7 @@ class Ship{
     boolean z = EOverlap(Q); 
     while(z){
       ArrayList<Coords> R = Esuggest(true);
+      println(III + " III");
       println("Q"); println(Q.size());
       for (int p = 0; p < Q.size(); p++){
         String s = Q.get(p).toString();
@@ -290,7 +292,9 @@ class Ship{
         String s = R.get(p).toString();
         println(s);
       }
-      if (III > 100){
+      if (III >= 10){
+        Q.clear();
+        R.clear();
         z = false;
         break;
       }
@@ -307,10 +311,9 @@ class Ship{
         R.clear(); 
       }
     }
-    if (III > 100){
+    if (III >= 10){
       return true;
     }
-    println(III + " III");
     for (int ii = 0; ii < Q.size(); ii++){
       Q.get(ii).type = this.type;
     }
@@ -319,7 +322,7 @@ class Ship{
       suggested.add(Q.get(i));
       suggested.get(i).occupied = true;
     }
-    //if (EOverlap(suggested) == false){
+    if (EOverlap(suggested) == false){
       for (int m = 0; m < suggested.size(); m++){
         occupied.add(suggested.get(m));
         Egrid.used.add(occupied.get(m));
@@ -333,10 +336,10 @@ class Ship{
       for (int o = 0; o < occupiedongrid.size(); o++){
         occupiedongrid.get(o).display_friendly();
       }
-    //}
-    //else{
-    //  suggested.clear();
-    //}
+    }
+    else{
+      suggested.clear();
+    }
     return false;
   }
   boolean EOverlap(ArrayList<Coords> q){ //true for overlap, false if it's good to go

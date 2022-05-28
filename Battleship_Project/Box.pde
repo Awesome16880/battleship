@@ -105,6 +105,9 @@ class Box{
     else if (state == SUBMARINE){
       fill(#00FF00);
     }
+    else if (state == HOSPITAL_SHIP){
+      fill(#FF7700);
+    }
     else if (state == DESTROYER){
       fill(#0000FF);
     }

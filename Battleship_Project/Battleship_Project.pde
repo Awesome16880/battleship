@@ -8,6 +8,7 @@ int SHIP = 11; //normal ship #B19CD9 (light purple)
 int ARMOR = 21; //armored ship #A9A9A9 (gray)
 int HEAVY_ARMOR = 31; //heavily armored ship #696969 (dark gray)
 int GOLD = 41; //used for the aircraft carrier #FFDB51 (bright gold)
+int HOSPITAL_SHIP = 68; //nuclear submarine #FF7700 (fire orange)
 int SUBMARINE = 69; //submarine #00FF00 (green)
 //submarine is to be camouflaged/submerged 
 int PATROL_BOAT = 70;
