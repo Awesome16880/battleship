@@ -8,6 +8,7 @@ class Destroyer extends Ship{
     this.headx = Erollx();
     this.heady = EFrolly();
     this.Length = 4;
+    this.HP= 4;
     boolean z = super.EDo();
     //while (z){
     //  boolean zz = super.EDo();
@@ -16,6 +17,14 @@ class Destroyer extends Ship{
     //    break;
     //  }
     //}
+  }
+  void FplaceDestroyer(){
+    this.type = DESTROYER;
+    this.Friendly = true;
+    this.headx = Frollx();
+    this.heady = EFrolly();
+    this.Length = 4;
+    boolean z = super.FDo();
   }
   int Erollx(){
     int A = int(random(4, 22)); int B = A * 21; int C = B + 5; return C;

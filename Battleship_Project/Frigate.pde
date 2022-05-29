@@ -8,6 +8,7 @@ class Frigate extends Ship{
     this.headx = Erollx();
     this.heady = EFrolly();
     this.Length = 3;
+    this.HP = 3;
     boolean z = super.EDo();
     //while (z){
     //  boolean zz = super.EDo();
@@ -16,6 +17,14 @@ class Frigate extends Ship{
     //    break;
     //  }
     //}
+  }
+  void FplaceFrigate(){
+    this.type = FRIGATE;
+    this.Friendly = true;
+    this.headx = Frollx();
+    this.heady = EFrolly();
+    this.Length = 3;
+    boolean z = super.FDo();
   }
   int Erollx(){
     int A = int(random(3, 23)); int B = A * 21; int C = B + 5; return C;

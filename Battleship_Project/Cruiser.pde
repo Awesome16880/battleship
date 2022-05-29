@@ -8,6 +8,7 @@ class Cruiser extends Ship{
     this.headx = Erollx();
     this.heady = EFrolly();
     this.Length = 6;
+    this.HP = 12; // 6 boxes, 2 HP each
     boolean z = super.EDo();
     //while (z){
     //  boolean zz = super.EDo();
@@ -16,6 +17,15 @@ class Cruiser extends Ship{
     //    break;
     //  }
     //}
+  }
+  void FplaceCruiser(){
+    this.type = CRUISER;
+    this.Friendly = true;
+    this.headx = Frollx();
+    this.heady = EFrolly();
+    this.Length = 6;
+    this.HP = 2;
+    boolean z = super.FDo();
   }
   int Erollx(){
     int A = int(random(6, 20)); int B = A * 21; int C = B + 5; return C;

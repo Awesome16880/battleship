@@ -8,8 +8,10 @@ class Ship{
   //battleship, 9x1, heavily armored ship #696969
   //aircraft carrier, 11x1 with some pieces sticking out, normal ship #FFDB51 (bright gold)
   //submarine, 3x1, submarine #00FF00 (hide from view even when hit)
+  //hospital ship, 5x1, hospital ship #FF7700
+  //reconnaissance ship, 1x1, reconnaissance ship
   
-  //fleet: 1 aircraft carrier, 1 battleship, 2 submarines, 4 cruisers, 8 destroyers, 10 frigates, 16 patrol boats
+  //fleet: 1 aircraft carrier, 1 battleship, 2 submarines, 4 cruisers, 8 destroyers, 10 frigates, 16 patrol boats, 1 hospital ship, 3 reconnaissance ships
   
   
   int x; 
@@ -21,7 +23,7 @@ class Ship{
   int headx;
   int heady;
   int HP;
-  boolean alive;
+  boolean isAlive;
   boolean Friendly;
   boolean directionUP; //true for going up from head
   boolean directionDW; //true for going down from head
@@ -31,9 +33,10 @@ class Ship{
   ArrayList<Coords> occupied = new ArrayList<Coords>(); 
   ArrayList<Coords> suggested = new ArrayList<Coords>();
   ArrayList<Box> occupiedongrid = new ArrayList<Box>();
+  ArrayList<Coords> alive = new ArrayList<Coords>();
   
   Ship(){
-    alive = true;
+    isAlive = true;
   }
   Ship(int xx, int yy){
     this();
@@ -84,7 +87,38 @@ class Ship{
       }
     }
     else{
-      //do what you did above, but for friendly grid instead of enemy grid
+      if (x <= 874 && y <= 423){
+        if (A == 0){
+          directionDW = true;
+        }
+        else{
+          directionRR = true;
+        }
+      }
+      if (x > 874 && y <= 423){
+        if (A == 0){
+          directionDW = true;
+        }
+        else{
+          directionLL = true;
+        }
+      }
+      if (x <= 874 && y > 423){
+        if (A == 0){
+          directionUP = true;
+        }
+        else{
+          directionRR = true;
+        }
+      }
+      if (x > 874 && y > 423){
+        if (A == 0){
+          directionUP = true;
+        }
+        else{
+          directionLL = true;
+        }
+      }
     }
   }
   Ship(int xx, int yy, int typee){
@@ -168,9 +202,40 @@ class Ship{
         }
       }
     }
-    //if (){
-      //do what was done above for the friendly grid
-    //}
+    if (typee == AIRCRAFT_CARRIER && f == true){
+      if (x <= 874 && y <= 423){
+        if (directionUP || directionDW){
+          pointE = true;
+        }
+        if (directionLL || directionRR){
+          pointS = true;
+        }
+      }
+      if (x <= 874 && y > 423){
+        if (directionUP || directionDW){
+          pointE = true;
+        }
+        if (directionLL || directionRR){
+          pointN = true;
+        }
+      }
+      if (x > 874 && y <= 423){
+        if (directionUP || directionDW){
+          pointW = true;
+        }
+        if (directionLL || directionRR){
+          pointS = true;
+        }
+      }
+      if (x > 874 && y > 423){
+        if (directionUP || directionDW){
+          pointW = true;
+        }
+        if (directionLL || directionRR){
+          pointN = true;
+        }
+      }
+    }
   }
   
   ArrayList<Coords> Esuggest(boolean N){
@@ -200,9 +265,10 @@ class Ship{
         headx = Erollx(3, 23); heady = EFrolly(3, 23);
       }
       if (type == PATROL_BOAT){
-        if (type == FRIGATE){
-          headx = Erollx(0, 26); heady = EFrolly(0, 26);
-        }
+        headx = Erollx(0, 26); heady = EFrolly(0, 26);
+      }
+      if (type == HOSPITAL_SHIP){
+        headx = Erollx(5, 21); heady = EFrolly(5, 21);
       }
     int X = this.headx; int Y = this.heady; ArrayList<Coords> A = new ArrayList<Coords>();
     if (directionLL){
@@ -273,25 +339,25 @@ class Ship{
   }
   boolean EDo(){ //return true if there's a problem, false if it's good to go
     ArrayList<Coords> Q = Esuggest(false); 
-    int III = 0; //III is being used to ensure that the while loop doesn't go on forever. Sadly it's not working
+    int III = 0; 
     for (int a = 0; a < Q.size(); a++){
       Q.get(a).type = this.type;
     }
-    println(Q.size() + "K");
+    //println(Q.size() + "K");
     boolean z = EOverlap(Q); 
     while(z){
       ArrayList<Coords> R = Esuggest(true);
-      println(III + " III");
-      println("Q"); println(Q.size());
-      for (int p = 0; p < Q.size(); p++){
-        String s = Q.get(p).toString();
-        println(s);
-      }
-      println("R"); println(R.size());
-      for (int p = 0; p < R.size(); p++){
-        String s = R.get(p).toString();
-        println(s);
-      }
+      //println(III + " III");
+      //println("Q"); println(Q.size());
+      //for (int p = 0; p < Q.size(); p++){
+      //  String s = Q.get(p).toString();
+      //  println(s);
+      //}
+      //println("R"); println(R.size());
+      //for (int p = 0; p < R.size(); p++){
+      //  String s = R.get(p).toString();
+      //  println(s);
+      //}
       if (III >= 10){
         Q.clear();
         R.clear();
@@ -332,9 +398,193 @@ class Ship{
         occupiedongrid.add(bb);
         bb.occupied = true;
         bb.coords.occupied = true;
+        bb.shipState = this.type;
+        bb.state = this.type;
       }
       for (int o = 0; o < occupiedongrid.size(); o++){
+        int x = occupiedongrid.get(o).doHP(occupiedongrid.get(o).shipState);
+        occupiedongrid.get(o).setHP(x);
+        occupiedongrid.get(o).display_friendly(); //change to display_initial() later
+      }
+      for (int p = 0; p < occupied.size(); p++){
+        alive.add(occupied.get(p));
+      }
+    }
+    else{
+      suggested.clear();
+    }
+    return false;
+  }
+  ArrayList<Coords> Fsuggest(boolean N){
+    if (N){
+      int D = int(random(0, 4));
+      if (D == 0){directionUP = true; directionDW = false; directionLL = false; directionRR = false;}
+      else if (D == 1){directionUP = false; directionDW = true; directionLL = false; directionRR = false;}
+      else if (D == 2){directionUP = false; directionDW = false; directionLL = true; directionRR = false;}
+      else{directionUP = false; directionDW = false; directionLL = false; directionRR = true;}
+    }
+      if (type == AIRCRAFT_CARRIER){
+        headx = Frollx(11, 15); heady = EFrolly(11, 15);
+      }
+      if (type == BATTLESHIP){
+        headx = Frollx(9, 17); heady = EFrolly(9, 17);
+      }
+      if (type == CRUISER){
+        headx = Frollx(6, 20); heady = EFrolly(6, 20);
+      }
+      if (type == DESTROYER){
+        headx = Frollx(4, 22); heady = EFrolly(4, 22);
+      }
+      if (type == FRIGATE){
+        headx = Frollx(3, 23); heady = EFrolly(3, 23);
+      }
+      if (type == SUBMARINE){
+        headx = Frollx(3, 23); heady = EFrolly(3, 23);
+      }
+      if (type == PATROL_BOAT){
+        headx = Frollx(0, 26); heady = EFrolly(0, 26);
+      }
+      if (type == HOSPITAL_SHIP){
+        headx = Frollx(5, 21); heady = EFrolly(5, 21);
+      }
+    int X = this.headx; int Y = this.heady; ArrayList<Coords> A = new ArrayList<Coords>();
+    if (directionLL){
+      for (int i = 0; i < this.Length; i++){
+        int xxx = X - (i * 21);
+        Coords c = new Coords(xxx, Y, Fgrid);
+        A.add(c);
+      }
+      if (type == AIRCRAFT_CARRIER){
+        for (int j = 0; j < this.Extension; j++){
+          int xxxx = X - (j * 21); int yyyy = 0;
+          if (pointN){yyyy = Y - 21;}
+          if (pointS){yyyy = Y + 21;}
+          Coords cc = new Coords(xxxx, yyyy, Fgrid);
+          A.add(cc);
+        }
+      }
+    }
+    if (directionRR){
+      for (int i = 0; i < this.Length; i++){
+        int xxx = X + (i * 21);
+        Coords c = new Coords(xxx, Y, Fgrid);
+        A.add(c);
+      }
+      if (type == AIRCRAFT_CARRIER){
+        for (int j = 0; j < this.Extension; j++){
+          int xxxx = X + (j * 21); int yyyy = 0;
+          if (pointN){yyyy = Y - 21;}
+          if (pointS){yyyy = Y + 21;}
+          Coords cc = new Coords(xxxx, yyyy, Fgrid);
+          A.add(cc);
+        }
+      }
+    }
+    if (directionUP){
+      for (int i = 0; i < this.Length; i++){
+        int yyy = Y - (i * 21);
+        Coords c = new Coords(X, yyy, Fgrid);
+        A.add(c);
+      }
+      if (type == AIRCRAFT_CARRIER){
+        for (int j = 0; j < this.Extension; j++){
+          int yyyy = Y - (j * 21); int xxxx = 0;
+          if (pointW){xxxx = X - 21;}
+          if (pointE){xxxx = X + 21;}
+          Coords cc = new Coords(xxxx, yyyy, Fgrid);
+          A.add(cc);
+        }
+      }
+    }
+    if (directionDW){
+      for (int i = 0; i < this.Length; i++){
+        int yyy = Y + (i * 21);
+        Coords c = new Coords(X, yyy, Fgrid);
+        A.add(c);
+      }
+      if (type == AIRCRAFT_CARRIER){
+        for (int j = 0; j < this.Extension; j++){
+          int yyyy = Y + (j * 21); int xxxx = 0;
+          if (pointW){xxxx = X - 21;}
+          if (pointE){xxxx = X + 21;}
+          Coords cc = new Coords(xxxx, yyyy, Fgrid);
+          A.add(cc);
+        }
+      }
+    }
+    return A;
+  }
+  boolean FDo(){
+    ArrayList<Coords> Q = Fsuggest(false); 
+    int III = 0; 
+    for (int a = 0; a < Q.size(); a++){
+      Q.get(a).type = this.type;
+    }
+    //println(Q.size() + "KK");
+    boolean z = FOverlap(Q); 
+    while(z){
+      ArrayList<Coords> R = Fsuggest(true);
+      //println(III + " III");
+      //println("QQ"); println(Q.size());
+      //for (int p = 0; p < Q.size(); p++){
+      //  String s = Q.get(p).toString();
+      //  println(s);
+      //}
+      //println("RR"); println(R.size());
+      //for (int p = 0; p < R.size(); p++){
+      //  String s = R.get(p).toString();
+      //  println(s);
+      //}
+      if (III >= 10){
+        Q.clear();
+        R.clear();
+        z = false;
+        break;
+      }
+      if (!FOverlap(R)){
+        Q.clear();
+        for (int i = 0; i < R.size(); i++){
+          Q.add(R.get(i));
+        }
+        z = false;
+        break;
+      }
+      else{
+        III++;
+        R.clear(); 
+      }
+    }
+    if (III >= 10){
+      return true;
+    }
+    for (int ii = 0; ii < Q.size(); ii++){
+      Q.get(ii).type = this.type;
+    }
+    //println(Q.size() + "AAAAAAAAAAAA");
+    for(int i = 0; i < Q.size(); i++){
+      suggested.add(Q.get(i));
+      suggested.get(i).occupied = true;
+    }
+    if (EOverlap(suggested) == false){
+      for (int m = 0; m < suggested.size(); m++){
+        occupied.add(suggested.get(m));
+        Fgrid.used.add(occupied.get(m));
+      }
+      for (int n = 0; n < occupied.size(); n++){
+        Box bb = occupied.get(n).link(Fgrid, occupied.get(n));
+        occupiedongrid.add(bb);
+        bb.occupied = true;
+        bb.coords.occupied = true;
+        bb.shipState = this.type;
+        bb.state = this.type;
+      }
+      for (int o = 0; o < occupiedongrid.size(); o++){
+        int x = occupiedongrid.get(o).doHP(occupiedongrid.get(o).shipState);
+        occupiedongrid.get(o).setHP(x);
         occupiedongrid.get(o).display_friendly();
+      }
+      for (int p = 0; p < occupied.size(); p++){
+        alive.add(occupied.get(p));
       }
     }
     else{
@@ -360,14 +610,17 @@ class Ship{
     }
     return false;
   }
-  boolean FOverlap(){
+  boolean FOverlap(ArrayList<Coords> q){
+    if (this.type == AIRCRAFT_CARRIER){
+      return false;
+    }
     for (int r = 0; r < 26; r++){
       for (int c = 0; c < 26; c++){
-        Box bb = Egrid.access(Egrid, r, c);
+        Box bb = Fgrid.access(Fgrid, r, c);
         Coords coord = bb.coords;
-        for (int k = 0; k < suggested.size(); k++){
-          Coords j = suggested.get(k);
-          if (coord.occupied == true && j.x == coord.x && j.y == coord.y){
+        for (int k = 0; k < q.size(); k++){
+          Coords j = q.get(k);
+          if ((coord.occupied == true || bb.occupied == true) && (j.x == coord.x && j.y == coord.y)){
             return true;
           }
         }

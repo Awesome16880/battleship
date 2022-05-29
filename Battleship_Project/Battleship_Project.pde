@@ -1,5 +1,3 @@
-
-
 //box states
 int BLACK = 0; //miss #000000
 int WHITE = 1; //blank/untouched
@@ -8,8 +6,8 @@ int SHIP = 11; //normal ship #B19CD9 (light purple)
 int ARMOR = 21; //armored ship #A9A9A9 (gray)
 int HEAVY_ARMOR = 31; //heavily armored ship #696969 (dark gray)
 int GOLD = 41; //used for the aircraft carrier #FFDB51 (bright gold)
-int HOSPITAL_SHIP = 68; //nuclear submarine #FF7700 (fire orange)
-int SUBMARINE = 69; //submarine #00FF00 (green)
+int HOSPITAL_SHIP = 68; //hospital ship #FF7700 (fire orange)
+int SUBMARINE = 69; //submarine #22D055 (dark green)
 //submarine is to be camouflaged/submerged 
 int PATROL_BOAT = 70;
 int FRIGATE = 71;
@@ -17,6 +15,20 @@ int DESTROYER = 72;
 int CRUISER = 73;
 int BATTLESHIP = 74;
 int AIRCRAFT_CARRIER = 75;
+int RECONNAISSANCE_SHIP = 76; //reconnaissance ship #78866B
+
+//game states
+int CURRENT_PAGE = 0;
+int MENU = 100;
+int PLAY = 101;
+int DEFEAT = 444;
+int VICTORY = 555;
+boolean in_play = false;
+int computer_hit_compass = 0;
+int computer_hit_streak = 0;
+boolean hunting = false;
+Box target_basis = null; //use this to aid the computer in determining which box to go for after securing a hit
+ArrayList<Box> computer_targets = new ArrayList<Box>();
 
 color BC = #00B0F4; //background color, lighter variant of sea blue
 
@@ -26,10 +38,46 @@ String enemyaction = "";
 
 Grid Egrid;
 Grid Fgrid;
+int funny = 0; int funni = 0;
+
+boolean easy = false;
+boolean normal = true; //change to false later
+boolean hard = false;
 
 void setup(){
   size(1500, 705);
-  background(BC); 
+  background(BC);
+  showPage(PLAY);
+}
+
+void draw(){
+  
+}
+
+void mouseClicked(){
+  if (in_play && normal){
+    Egrid.PLAYERplaysNORMAL(mouseX, mouseY);
+  }
+}
+
+void showPage(int currentPage){
+  CURRENT_PAGE = currentPage;
+  showPage();
+}
+
+void showPage(){
+  if (CURRENT_PAGE == MENU){
+  }
+  else if (CURRENT_PAGE == PLAY){
+    setUp();
+  }
+  else if (CURRENT_PAGE == DEFEAT){
+  }
+  else if (CURRENT_PAGE == VICTORY){
+  }
+}
+
+void setUp(){
   Egrid = new Grid();
   Fgrid = new Grid();
   Egrid.drawGridEnemy();
@@ -37,6 +85,7 @@ void setup(){
   Egrid.link(Egrid);
   Fgrid.link(Fgrid);
   Egrid.Eplace();
+  Fgrid.Fplace();
   textSize(18);
   fill(0);
   //text("Please view the console to see actions.", 30, 55); //"Enemy Action"
@@ -56,12 +105,5 @@ void setup(){
   text("17", 570, 502); text("18", 570, 523); text("19", 570, 544); text("20", 570, 565);
   text("21", 570, 586); text("22", 570, 607);text("23", 570, 628);text("24", 570, 649);
   text("25", 570, 670); text("26", 570, 692);
-}
-
-void draw(){
-  
-}
-
-void mouseClicked(){
-  
+  in_play = true;
 }

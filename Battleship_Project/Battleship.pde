@@ -8,6 +8,7 @@ class Battleship extends Ship{
     this.headx = Erollx();
     this.heady = EFrolly();
     this.Length = 9;
+    this.HP = 27; //9 boxes, 3 HP each
     boolean z = super.EDo();
     //while (z){
     //  boolean zz = super.EDo();
@@ -16,6 +17,15 @@ class Battleship extends Ship{
     //    break;
     //  }
     //}
+  }
+  void FplaceBattleship(){
+    this.type = BATTLESHIP;
+    this.Friendly = true;
+    this.headx = Frollx();
+    this.heady = EFrolly();
+    this.Length = 9;
+    this.HP = 3;
+    boolean z = super.FDo();
   }
   int Erollx(){
     int A = int(random(9, 17)); int B = A * 21; int C = B + 5; return C;

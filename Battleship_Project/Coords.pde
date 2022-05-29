@@ -18,6 +18,8 @@ class Coords{
       r = (y - 150) / 21;
     }
     if (this.grid == Fgrid){
+      c = (x - 601) / 21;
+      r = (y - 150) / 21;
     }
   }
   Coords (int xx, int yy, Grid gridd, boolean occupiedd){

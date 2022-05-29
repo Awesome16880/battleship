@@ -7,7 +7,8 @@ class HospitalShip extends Ship{
     this.Friendly = false;
     this.headx = Erollx();
     this.heady = EFrolly();
-    this.Length = 1;
+    this.Length = 5;
+    this.HP = 5;
     boolean z = super.EDo();
     //while (z){
     //  boolean zz = super.EDo();
@@ -17,13 +18,21 @@ class HospitalShip extends Ship{
     //  }
     //}
   }
+  void FplaceHospitalShip(){
+    this.type = HOSPITAL_SHIP;
+    this.Friendly = true;
+    this.headx = Frollx();
+    this.heady = EFrolly();
+    this.Length = 5;
+    boolean z = super.FDo();
+  }
   int Erollx(){
-    int A = int(random(0, 26)); int B = A * 21; int C = B + 5; return C;
+    int A = int(random(5, 21)); int B = A * 21; int C = B + 5; return C;
   }
   int Frollx(){
-    int A = int(random(0, 26)); int B = A * 21; int C = B + 601; return C;
+    int A = int(random(5, 21)); int B = A * 21; int C = B + 601; return C;
   }
   int EFrolly(){
-    int A = int(random(0, 26)); int B = A * 21; int C = B + 150; return C;
+    int A = int(random(5, 21)); int B = A * 21; int C = B + 150; return C;
   }
 }
