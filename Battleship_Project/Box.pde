@@ -54,9 +54,9 @@ class Box {
     return s;
   }
   void remove(){
-    for (int i = 0; i < computer_targets.size(); i++){
-      if (this.x == computer_targets.get(i).x && this.y == computer_targets.get(i).y){
-        computer_targets.remove(i);
+    for (int i = 0; i < possible_computer_targets.size(); i++){
+      if (this.x == possible_computer_targets.get(i).x && this.y == possible_computer_targets.get(i).y){
+        possible_computer_targets.remove(i);
       }
     }
   }
@@ -71,38 +71,46 @@ class Box {
     this.HP = this.HP - 1;
     if ((s < 0 && this.state != HIT) || this.shipState == SUBMARINE) {
       display_miss();
-      if (isPlayer == false){
-        if (hunting == false){
-          computer_hit_streak = 0;
-        }
-        if (computer_hit_compass <= 0){
-          target_basis = null; 
-          computer_hit_streak = 0;
-          computer_hit_compass = 0;
-          hunting = false;
-        }
-        if (computer_hit_compass > 0){
-          computer_hit_compass--; 
-        }
-        println("COMPASS: " + computer_hit_compass);
-        println("STREAK: " + computer_hit_streak);
+      if (!isPlayer && computer_targets.size() == 0){
+        targeting = false;
+        target_basis = null;
       }
     }
     else {
       display_hit();
-      if (isPlayer == false && computer_hit_compass == 0){
-        hunting = true;
-        computer_hit_compass = 4;
-      }
-      if (isPlayer == false && computer_hit_compass == 4){
+      if (!isPlayer && computer_targets.size() == 0){
+        targeting = true;
         target_basis = this;
+        if (target_basis.north.shotAt == false){
+          computer_targets.add(target_basis.north);
+        }
+        if (target_basis.east.shotAt == false){
+          computer_targets.add(target_basis.east);
+        }
+        if (target_basis.south.shotAt == false){
+          computer_targets.add(target_basis.south);
+        }
+        if (target_basis.west.shotAt == false){
+          computer_targets.add(target_basis.west);
+        }
       }
-      if (isPlayer == false && computer_hit_compass != 0){
-        computer_hit_streak++;
+      if (!isPlayer && computer_targets.size() > 0){
+        Box tempBB = this;
+        if (tempBB.north.shotAt == false){
+          computer_targets.add(tempBB.north);
+        }
+        if (tempBB.east.shotAt == false){
+          computer_targets.add(tempBB.east);
+        }
+        if (tempBB.south.shotAt == false){
+          computer_targets.add(tempBB.south);
+        }
+        if (tempBB.west.shotAt == false){
+          computer_targets.add(tempBB.west);
+        }
       }
       if (!isPlayer){
-        println("COMPASS: " + computer_hit_compass);
-        println("STREAK: " + computer_hit_streak);
+        targeting = true;
       }
     }
   }

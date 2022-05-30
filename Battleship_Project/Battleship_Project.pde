@@ -1,3 +1,5 @@
+//https://www.datagenetics.com/blog/december32011/
+
 //box states
 int BLACK = 0; //miss #000000
 int WHITE = 1; //blank/untouched
@@ -26,8 +28,9 @@ int VICTORY = 555;
 boolean in_play = false;
 int computer_hit_compass = 0;
 int computer_hit_streak = 0;
-boolean hunting = false;
+boolean targeting = false;
 Box target_basis = null; //use this to aid the computer in determining which box to go for after securing a hit
+ArrayList<Box> possible_computer_targets = new ArrayList<Box>();
 ArrayList<Box> computer_targets = new ArrayList<Box>();
 
 color BC = #00B0F4; //background color, lighter variant of sea blue
@@ -43,6 +46,10 @@ int funny = 0; int funni = 0;
 boolean easy = false;
 boolean normal = true; //change to false later
 boolean hard = false;
+int Braindead = 800;
+int Easy = 801;
+int Normal = 802;
+int Hard = 803;
 
 void setup(){
   size(1500, 705);
@@ -56,7 +63,7 @@ void draw(){
 
 void mouseClicked(){
   if (in_play && normal){
-    Egrid.PLAYERplaysNORMAL(mouseX, mouseY);
+    Egrid.PLAYERplaysNORMAL(mouseX, mouseY, Normal);
   }
 }
 

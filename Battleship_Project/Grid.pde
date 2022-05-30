@@ -70,7 +70,7 @@ class Grid{
         grid[r][c] = bb;
         x = x + side;
         grid[r][c].display_initial();
-        computer_targets.add(bb);
+        possible_computer_targets.add(bb);
       }
       y = y + side;
       x = friendlystartx;
@@ -119,119 +119,32 @@ class Grid{
     }
     return null;
   }
-  Box computer_accessNORMAL(){
-    Box BB = null; Box tempBB0 = null; Box tempBB1 = null;
-    if (computer_hit_compass == 4){
-      if (computer_hit_streak == 1){
-        target_basis.north.remove();
-        return target_basis.north;
-      }
-      else if (computer_hit_streak > 1){
-        BB = target_basis.north; tempBB0 = BB.north; 
-        for (int i = 2; i < computer_hit_streak; i++){
-          if (tempBB0.north != null){
-            tempBB1 = tempBB0.north;
-            tempBB0 = tempBB1;
-          }
-          else{
-            int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, computer_targets.size()));
-            Box x = computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
-            computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
-            return x;
-          }
-        }
-        if (tempBB0 != null){
-          tempBB0.remove();
-          return tempBB0;
+  Box computer_accessEASYNORMAL(){
+    Box BB = null;
+    if (computer_targets.size() > 0){
+      for (int i = 0; i < computer_targets.size(); i++){
+        if (computer_targets.get(i).shotAt == true){
+          computer_targets.remove(i);
+          i--;
         }
       }
     }
-    else if (computer_hit_compass == 3){
-      if (computer_hit_streak == 1){
-        target_basis.east.remove();
-        return target_basis.east;
-      }
-      else if (computer_hit_streak > 1){
-        BB = target_basis.east; tempBB0 = BB.east; 
-        for (int i = 2; i < computer_hit_streak; i++){
-          if (tempBB0.east != null){
-            tempBB1 = tempBB0.east;
-            tempBB0 = tempBB1;
-          }
-          else{
-            int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, computer_targets.size()));
-            Box x = computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
-            computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
-            return x;
-          }
-        }
-        if (tempBB0 != null){
-          tempBB0.remove();
-          return tempBB0;
-        }
-      }
-    }
-    else if (computer_hit_compass == 2){
-      if (computer_hit_streak == 1){
-        target_basis.south.remove();
-        return target_basis.south;
-      }
-      else if (computer_hit_streak > 1){
-        BB = target_basis.south; tempBB0 = BB.south; 
-        for (int i = 2; i < computer_hit_streak; i++){
-          if (tempBB0.east != null){
-            tempBB1 = tempBB0.south;
-            tempBB0 = tempBB1;
-          }
-          else{
-            int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, computer_targets.size()));
-            Box x = computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
-            computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
-            return x;
-          }
-        }
-        if (tempBB0 != null){
-          tempBB0.remove();
-          return tempBB0;
-        }
-      }
-    }
-    else if (computer_hit_compass == 1){
-      if (computer_hit_streak == 1){
-        target_basis.west.remove();
-        return target_basis.west;
-      }
-      else if (computer_hit_streak > 1){
-        BB = target_basis.west; tempBB0 = BB.west; 
-        for (int i = 2; i < computer_hit_streak; i++){
-          if (tempBB0.west != null){
-            tempBB1 = tempBB0.west;
-            tempBB0 = tempBB1;
-          }
-          else{
-            int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, computer_targets.size()));
-            Box x = computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
-            computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
-            return x;
-          }
-        }
-        if (tempBB0 != null){
-          tempBB0.remove();
-          return tempBB0;
-        }
-      }
+    if (targeting == true && computer_targets.size() > 0){
+      BB = computer_targets.get(0);
+      computer_targets.remove(0);
     }
     else{
-      int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, computer_targets.size()));
-      BB = computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
-      computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+      targeting = false;
+      int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, possible_computer_targets.size()));
+      BB = possible_computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+      possible_computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
     }
     return BB;
   }
   Coords accessCoords(Grid GG, int r, int c){
     return GG.grid[r][c].coords;
   }
-  void PLAYERplaysNORMAL(int mx, int my){ //change this when you add abilities and corresponding buttons, so it doesn't end up with null pointer exception
+  void PLAYERplaysNORMAL(int mx, int my, int difficulty){ //change this when you add abilities and corresponding buttons, so it doesn't end up with null pointer exception
     boolean COMPUTERplays = false;
     int mx0 = mx - 5; int my0 = my - 150;
     int mx1 = mx0 / 21; int my1 = my0 / 21;
@@ -352,10 +265,20 @@ class Grid{
     } 
     else{
     }
-    if (COMPUTERplays == true){
-      //the computer makes a move here, right after the player makes a move
-      Box BB = computer_accessNORMAL();
+    if (COMPUTERplays == true && difficulty == Easy){
+      Box BB = computer_accessEASYNORMAL();
       BB.hit(false);
+      if (BB.state == HIT || BB.state == BLACK){
+        BB.shotAt = true;
+      }
+      COMPUTERplays = false;
+    }
+    if (COMPUTERplays == true && difficulty == Normal){
+      Box BB = computer_accessEASYNORMAL();
+      BB.hit(false);
+      if (BB.state == HIT || BB.state == BLACK){
+        BB.shotAt = true;
+      }
       COMPUTERplays = false;
     }
   }
