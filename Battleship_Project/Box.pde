@@ -25,7 +25,7 @@ class Box {
   Box(int xx, int yy, int boxside, int statee, boolean Friendly) {
     x = xx;
     y = yy;
-    HP = -1;
+    HP = -101;
     useful = true;
     occupied = false;
     shipState = -1;
@@ -66,51 +66,100 @@ class Box {
   void setHP(int hp){
     this.HP = hp;
   }
+  boolean same (Box other){
+    if (other.x == this.x && other.y == this.y){
+      return true;
+    }
+    else{return false;}
+  }
+  boolean repeat (ArrayList<Box> other){
+    for (int I = 0; I < other.size(); I++){
+      if (other.get(I).x == this.x && other.get(I).y == this.y){
+        return true;
+      }
+    }
+    return false;
+  }
+  void autoSink(boolean isPlayer){
+    int s = this.HP; 
+    if (isPlayer && (!(s < -100 && this.state != HIT))){
+      EHP = EHP - s;
+    }
+    if (!isPlayer && (!(s < -100 && this.state != HIT))){
+      FHP = FHP - s;
+    }
+    if ((s < -100 && this.state != HIT) || this.shipState == SUBMARINE){
+      display_miss();
+    }
+    else{
+      this.HP = 0;
+      display_hit();
+    }
+  }
   void hit(boolean isPlayer) {
     int s = this.HP;
     this.HP = this.HP - 1;
-    if ((s < 0 && this.state != HIT) || this.shipState == SUBMARINE) {
-      display_miss();
-      if (!isPlayer && computer_targets.size() == 0){
-        targeting = false;
-        target_basis = null;
+    if (isPlayer && (!(s < -100 && this.state != HIT))){
+      EHP--;
+    }
+    if (!isPlayer && (!(s < -100 && this.state != HIT))){
+      FHP--;
+    }
+    if (veryEasy){
+      if ((s < -100 && this.state != HIT) || this.shipState == SUBMARINE){
+        display_miss();
+      }
+      else{
+        display_hit();
       }
     }
-    else {
-      display_hit();
-      if (!isPlayer && computer_targets.size() == 0){
-        targeting = true;
-        target_basis = this;
-        if (target_basis.north.shotAt == false){
-          computer_targets.add(target_basis.north);
+    if (!veryEasy){
+      if ((s < -100 && this.state != HIT) || this.shipState == SUBMARINE) {
+        display_miss();
+        if (!isPlayer && computer_targets.size() == 0){
+          targeting = false;
+          target_basis = null;
         }
-        if (target_basis.east.shotAt == false){
-          computer_targets.add(target_basis.east);
-        }
-        if (target_basis.south.shotAt == false){
-          computer_targets.add(target_basis.south);
-        }
-        if (target_basis.west.shotAt == false){
-          computer_targets.add(target_basis.west);
+        if (!isPlayer && computer_targets.size() > 0){
+          targeting = true;
         }
       }
-      if (!isPlayer && computer_targets.size() > 0){
-        Box tempBB = this;
-        if (tempBB.north.shotAt == false){
-          computer_targets.add(tempBB.north);
+      else {
+        display_hit();
+        if (!isPlayer && computer_targets.size() == 0){
+          targeting = true;
+          target_basis = this;
+          if (target_basis.north.shotAt == false){
+            computer_targets.add(target_basis.north);
+          }
+          if (target_basis.east.shotAt == false){
+            computer_targets.add(target_basis.east);
+          }
+          if (target_basis.south.shotAt == false){
+            computer_targets.add(target_basis.south);
+          }
+          if (target_basis.west.shotAt == false){
+            computer_targets.add(target_basis.west);
+          }
         }
-        if (tempBB.east.shotAt == false){
-          computer_targets.add(tempBB.east);
+        if (!isPlayer && computer_targets.size() > 0){
+          Box tempBB = this;
+          if (tempBB.north.shotAt == false){
+            computer_targets.add(tempBB.north);
+          }
+          if (tempBB.east.shotAt == false){
+            computer_targets.add(tempBB.east);
+          }
+          if (tempBB.south.shotAt == false){
+            computer_targets.add(tempBB.south);
+          }
+          if (tempBB.west.shotAt == false){
+            computer_targets.add(tempBB.west);
+          }
         }
-        if (tempBB.south.shotAt == false){
-          computer_targets.add(tempBB.south);
+        if (!isPlayer){
+          targeting = true;
         }
-        if (tempBB.west.shotAt == false){
-          computer_targets.add(tempBB.west);
-        }
-      }
-      if (!isPlayer){
-        targeting = true;
       }
     }
   }

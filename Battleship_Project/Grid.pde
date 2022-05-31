@@ -51,6 +51,7 @@ class Grid{
         grid[r][c] = bb;
         x = x + side;
         grid[r][c].display_initial();
+        possible_targets.add(bb);
       }
       y = y + side;
       x = enemystartx;
@@ -119,7 +120,13 @@ class Grid{
     }
     return null;
   }
-  Box computer_accessEASYNORMAL(){
+  Box computer_accessVERYEASY(){
+    int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, possible_computer_targets.size()));
+    Box BB = possible_computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+    possible_computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+    return BB;
+  }
+  Box computer_accessEASY(){
     Box BB = null;
     if (computer_targets.size() > 0){
       for (int i = 0; i < computer_targets.size(); i++){
@@ -144,8 +151,7 @@ class Grid{
   Coords accessCoords(Grid GG, int r, int c){
     return GG.grid[r][c].coords;
   }
-  void PLAYERplaysNORMAL(int mx, int my, int difficulty){ //change this when you add abilities and corresponding buttons, so it doesn't end up with null pointer exception
-    boolean COMPUTERplays = false;
+  void PLAYERplays(int mx, int my, int difficulty){ //change this when you add abilities and corresponding buttons, so it doesn't end up with null pointer exception
     int mx0 = mx - 5; int my0 = my - 150;
     int mx1 = mx0 / 21; int my1 = my0 / 21;
     int mxf0 = mx - 601; int myf0 = my - 150;
@@ -262,11 +268,19 @@ class Grid{
       }
       //println("ROW " + mx1 + " COL " + my1);
       COMPUTERplays = true;
-    } 
+    } //CURRENT
     else{
     }
+    if (COMPUTERplays == true && difficulty == VeryEasy){
+      Box BB = computer_accessVERYEASY();
+      BB.hit(false);
+      if (BB.state == HIT || BB.state == BLACK){
+        BB.shotAt = true;
+      }
+      COMPUTERplays = false;
+    }
     if (COMPUTERplays == true && difficulty == Easy){
-      Box BB = computer_accessEASYNORMAL();
+      Box BB = computer_accessEASY();
       BB.hit(false);
       if (BB.state == HIT || BB.state == BLACK){
         BB.shotAt = true;
@@ -274,7 +288,7 @@ class Grid{
       COMPUTERplays = false;
     }
     if (COMPUTERplays == true && difficulty == Normal){
-      Box BB = computer_accessEASYNORMAL();
+      Box BB = computer_accessEASY(); //change to computer_accessNORMAL() after you make abilities
       BB.hit(false);
       if (BB.state == HIT || BB.state == BLACK){
         BB.shotAt = true;

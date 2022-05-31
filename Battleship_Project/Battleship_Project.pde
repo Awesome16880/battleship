@@ -25,31 +25,45 @@ int MENU = 100;
 int PLAY = 101;
 int DEFEAT = 444;
 int VICTORY = 555;
-boolean in_play = false;
+boolean in_play = false; boolean defeat = false; boolean victory = false;
 int computer_hit_compass = 0;
 int computer_hit_streak = 0;
 boolean targeting = false;
 Box target_basis = null; //use this to aid the computer in determining which box to go for after securing a hit
 ArrayList<Box> possible_computer_targets = new ArrayList<Box>();
 ArrayList<Box> computer_targets = new ArrayList<Box>();
+ArrayList<Box> possible_targets = new ArrayList<Box>();
 
 color BC = #00B0F4; //background color, lighter variant of sea blue
 
-//use this to display actions
-String youraction = "";
-String enemyaction = "";
-
 Grid Egrid;
 Grid Fgrid;
+int EHP = 0; int FHP = 0;
 int funny = 0; int funni = 0;
+boolean COMPUTERplays = false;
 
+//difficulties
+boolean veryEasy = false;
 boolean easy = false;
 boolean normal = true; //change to false later
 boolean hard = false;
-int Braindead = 800;
+int VeryEasy = 800;
 int Easy = 801;
 int Normal = 802;
 int Hard = 803;
+
+//abilities
+int ABILITIES = 0;  
+int ENEMY_ABILITIES = 0;
+int circleLight1x = 1250; int circleLight2x = 1320; int circleLight3x = 1390; int circleLighty = 140;
+Ability circleLight1 = new Ability(circleLight1x, circleLighty); 
+Ability circleLight2 = new Ability(circleLight2x, circleLighty); 
+Ability circleLight3 = new Ability(circleLight3x, circleLighty);
+boolean fmissiles; boolean fbomb;
+boolean emissiles; boolean ebomb;
+int missiles = 900; int bomb = 901;
+Ability Fmissiles = new Ability(missiles, true, 1230, 220, 180, 50); //randomly hits 75 squares
+Ability Fbomb = new Ability(bomb, true, 1230, 290, 180, 50); //utterly destroys 61 squares in a diamond-like formation
 
 void setup(){
   size(1500, 705);
@@ -58,12 +72,30 @@ void setup(){
 }
 
 void draw(){
-  
+  if (EHP <= 0){
+    in_play = false; victory = true;
+  }
+  if (FHP <= 0){
+    in_play = false; defeat = true;
+  }
 }
 
 void mouseClicked(){
+  if (in_play && mouseX >= 1230 && mouseX <= 1410 && mouseY >= 220 && mouseY <= 270 && fmissiles == true && ABILITIES > 0){
+    Fmissiles.use(); Fmissiles.off(); Fmissiles.display(); Fmissiles.turnOffLight(); fmissiles = false; ABILITIES--; COMPUTERplays = true; 
+  }
+  if (in_play && mouseX >= 1230 && mouseX <= 1410 && mouseY >= 290 && mouseY <= 340 && fbomb == true && ABILITIES > 0){
+    Fbomb.use(); Fbomb.off(); Fbomb.display(); Fbomb.turnOffLight(); fbomb = false; ABILITIES--; COMPUTERplays = true; 
+  }
+  println(COMPUTERplays);
+  if (in_play && veryEasy){
+    Egrid.PLAYERplays(mouseX, mouseY, VeryEasy);
+  }
+  if (in_play && easy){
+    Egrid.PLAYERplays(mouseX, mouseY, Easy);
+  }
   if (in_play && normal){
-    Egrid.PLAYERplaysNORMAL(mouseX, mouseY, Normal);
+    Egrid.PLAYERplays(mouseX, mouseY, Normal);
   }
 }
 
@@ -77,6 +109,13 @@ void showPage(){
   }
   else if (CURRENT_PAGE == PLAY){
     setUp();
+    if (veryEasy || easy){
+      emissiles = false;
+      ENEMY_ABILITIES = 0;
+    }
+    else if (normal){
+      ENEMY_ABILITIES = 3;
+    }
   }
   else if (CURRENT_PAGE == DEFEAT){
   }
@@ -85,6 +124,12 @@ void showPage(){
 }
 
 void setUp(){
+  fmissiles = true; fbomb = true;
+  emissiles = true; ebomb = true;
+  ABILITIES = 3;
+  EHP = 181; //HP of all enemy ships combined in enemy grid
+  FHP = 181; //HP of all friendly ships combined in friendly grid
+  circleLight1.abilitylights(); circleLight2.abilitylights(); circleLight3.abilitylights();
   Egrid = new Grid();
   Fgrid = new Grid();
   Egrid.drawGridEnemy();
@@ -93,8 +138,10 @@ void setUp(){
   Fgrid.link(Fgrid);
   Egrid.Eplace();
   Fgrid.Fplace();
+  Fmissiles.display(); Fbomb.display();
   textSize(18);
   fill(0);
+  text("Missiles", 1280, 250); text("Carpet  Bombing", 1260, 320);
   //text("Please view the console to see actions.", 30, 55); //"Enemy Action"
   //text("Your Action:", 620, 55);
   textSize(25);
@@ -112,5 +159,7 @@ void setUp(){
   text("17", 570, 502); text("18", 570, 523); text("19", 570, 544); text("20", 570, 565);
   text("21", 570, 586); text("22", 570, 607);text("23", 570, 628);text("24", 570, 649);
   text("25", 570, 670); text("26", 570, 692);
+  textSize(30);
+  text("ABILITIES", 1255, 95);
   in_play = true;
 }
