@@ -80,6 +80,30 @@ class Box {
     }
     return false;
   }
+  int repeat(ArrayList<Box> other, int random){
+    for (int RQ = 0; RQ < other.size(); RQ++){
+      if (other.get(RQ).x == this.x && other.get(RQ).y == this.y){
+        return RQ;
+      }
+    }
+    return -1;
+  }
+  int reportCol(boolean f){
+    int c = -1;
+    if (!f){
+      int x = this.x; int rx = x - 5; c = rx / 21;
+    }
+    if (f){
+      int x = this.x; int rx = x - 601; c = rx / 21;
+    }
+    return c;
+  }
+  int reportRow(){
+    int y = this.y; 
+    int ry = y - 150; 
+    int r = ry / 21; 
+    return r;
+  }
   void autoSink(boolean isPlayer){
     int s = this.HP; 
     if (isPlayer && (!(s < -100 && this.state != HIT))){
@@ -97,7 +121,7 @@ class Box {
     }
   }
   void hit(boolean isPlayer) {
-    int s = this.HP;
+    int s = this.HP; 
     this.HP = this.HP - 1;
     if (isPlayer && (!(s < -100 && this.state != HIT))){
       EHP--;
@@ -116,6 +140,13 @@ class Box {
     if (!veryEasy){
       if ((s < -100 && this.state != HIT) || this.shipState == SUBMARINE) {
         display_miss();
+        if (isPlayer && veryHard && !just_used_ability && this.shipState != SUBMARINE){
+          DEATH++;  
+          ALLDEATH++;  
+        }
+        if (isPlayer && veryveryHard && !just_used_ability && this.shipState != SUBMARINE){
+          DEATH++;    
+        }
         if (!isPlayer && computer_targets.size() == 0){
           targeting = false;
           target_basis = null;
@@ -126,6 +157,9 @@ class Box {
       }
       else {
         display_hit();
+        if (isPlayer && veryveryHard && !just_used_ability){
+          DEATH = 0;  
+        }
         if (!isPlayer && computer_targets.size() == 0){
           targeting = true;
           target_basis = this;
@@ -262,12 +296,51 @@ class Box {
     }
     square(x, y, side);
   }
+  void display_reconnaissance(){
+    if (state == BLACK) {
+      fill(#000000);
+    } 
+    else if (state == WHITE) {
+      fill(#FFFFFF);
+    } 
+    else if (state == HIT) {
+      fill(#FF0000);
+    } 
+    else if (state == SHIP || state == PATROL_BOAT) {
+      fill(#B19CD9);
+    }
+    else if (state == SUBMARINE && usedsonar == true){
+      fill(#22D055);
+    }
+    else if (state == ARMOR) {
+      fill(#A9A9A9);
+    } 
+    else if (state == HEAVY_ARMOR) {
+      fill(#696969);
+    }  
+    else if (state == HOSPITAL_SHIP) {
+      fill(#FF7700);
+    } 
+    else if (state == RECONNAISSANCE_SHIP) {
+      fill(#78866B);
+    } 
+    else if (state == DESTROYER) {
+      fill(#0000FF);
+    } 
+    else if (state == FRIGATE) {
+      fill(#00FFFF);
+    } 
+    else if (state == AIRCRAFT_CARRIER){
+      fill(#FFDB51);
+    }
+    square(x, y, side);
+  }
   int doHP(int shipstate) {
     if (shipstate > 0) {
-      if (shipstate == BATTLESHIP) {
+      if (shipstate == BATTLESHIP || shipstate == HEAVY_ARMOR) {
         return 3;
       }
-      if (shipstate == CRUISER) {
+      if (shipstate == CRUISER || shipstate == ARMOR) {
         return 2;
       }
       else{

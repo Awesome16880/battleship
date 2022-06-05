@@ -129,6 +129,7 @@ class Grid{
   Box computer_accessEASY(){
     Box BB = null;
     if (computer_targets.size() > 0){
+      targeting = true;
       for (int i = 0; i < computer_targets.size(); i++){
         if (computer_targets.get(i).shotAt == true){
           computer_targets.remove(i);
@@ -148,17 +149,210 @@ class Grid{
     }
     return BB;
   }
+  Box computer_accessNORMAL(){
+    Box BB = null; int A = int(random(0, 100));
+    if (computer_targets.size() > 0){
+      targeting = true;
+      for (int i = 0; i < computer_targets.size(); i++){
+        if (computer_targets.get(i).shotAt == true){
+          computer_targets.remove(i);
+          i--;
+        }
+      }
+    }
+    if (targeting == true && computer_targets.size() > 0){
+      BB = computer_targets.get(0);
+      computer_targets.remove(0);
+      return BB;
+    }
+    else{
+      if (A < 7 && emissiles == true && ENEMY_ABILITIES > 0){
+        Emissiles.use(); emissiles = false; ENEMY_ABILITIES--; 
+      }
+      else if (A < 14 && ebomb == true && ENEMY_ABILITIES > 0){
+        Ebomb.use(); ebomb = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 21 && elaser == true && ENEMY_ABILITIES > 0){
+        Elaser.use(); elaser = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 28 && esonar == true && ENEMY_ABILITIES > 0){
+        Esonar.use(); esonar = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 35 && espontaneousexplosion == true && ENEMY_ABILITIES > 0){
+        Espontaneousexplosion.use(); espontaneousexplosion = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 42 && ereconnaissance == true && ENEMY_ABILITIES > 0){
+        Ereconnaissance.use(); ereconnaissance = false; ENEMY_ABILITIES--;
+      }
+      else{
+        targeting = false;
+        int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, possible_computer_targets.size()));
+        BB = possible_computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+        possible_computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+      }
+    }
+    return BB;
+  }
+  Box computer_accessHARD(){
+    Box BB = null; int A = int(random(0, 100)); int moar = int(random(0, 100));
+    if (computer_targets.size() > 0){
+      targeting = true;
+      for (int i = 0; i < computer_targets.size(); i++){
+        if (computer_targets.get(i).shotAt == true){
+          computer_targets.remove(i);
+          i--;
+        }
+      }
+    }
+    if (targeting == true && computer_targets.size() > 0 && moar != 0){
+      BB = computer_targets.get(0);
+      computer_targets.remove(0);
+      return BB;
+    }
+    else{
+      if (A < 14 && emissiles == true && ENEMY_ABILITIES > 0){
+        Emissiles.use(); emissiles = false; ENEMY_ABILITIES--; 
+      }
+      else if (A < 28 && ebomb == true && ENEMY_ABILITIES > 0){
+        Ebomb.use(); ebomb = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 42 && elaser == true && ENEMY_ABILITIES > 0){
+        Elaser.use(); elaser = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 56 && esonar == true && ENEMY_ABILITIES > 0){
+        Esonar.use(); esonar = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 70 && espontaneousexplosion == true && ENEMY_ABILITIES > 0){
+        Espontaneousexplosion.use(); espontaneousexplosion = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 84 && ereconnaissance == true && ENEMY_ABILITIES > 0){
+        Ereconnaissance.use(); ereconnaissance = false; ENEMY_ABILITIES--;
+      }
+      else{
+        targeting = false;
+        int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, possible_computer_targets.size()));
+        BB = possible_computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+        possible_computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+      }
+    }
+    return BB;
+  }
+  Box computer_accessVERYHARD(){
+    Box BB = null; int A = int(random(0, 84)); int moar = int(random(0, 100));
+    float K = ALLDEATH * 1.5; float RQ = K * 10; int MOAR = moar * 10; boolean QR = MOAR < RQ;
+    if (computer_targets.size() > 0){
+      targeting = true;
+      for (int i = 0; i < computer_targets.size(); i++){
+        if (computer_targets.get(i).shotAt == true){
+          computer_targets.remove(i);
+          i--;
+        }
+      }
+    }
+    if (targeting == true && computer_targets.size() > 0 && !QR){
+      BB = computer_targets.get(0);
+      computer_targets.remove(0);
+      return BB;
+    }
+    else{
+      if (A < 14 && emissiles == true && ENEMY_ABILITIES > 0){
+        Emissiles.use(); emissiles = true; ENEMY_ABILITIES--; 
+      }
+      else if (A < 28 && ebomb == true && ENEMY_ABILITIES > 0){
+        Ebomb.use(); ebomb = true; ENEMY_ABILITIES--;
+      }
+      else if (A < 42 && elaser == true && ENEMY_ABILITIES > 0){
+        Elaser.use(); elaser = true; ENEMY_ABILITIES--;
+      }
+      else if (A < 56 && esonar == true && ENEMY_ABILITIES > 0){
+        Esonar.use(); esonar = true; ENEMY_ABILITIES--;
+      }
+      else if (A < 70 && espontaneousexplosion == true && ENEMY_ABILITIES > 0){
+        Espontaneousexplosion.use(); espontaneousexplosion = true; ENEMY_ABILITIES--;
+      }
+      else if (A < 84 && ereconnaissance == true && ENEMY_ABILITIES > 0){
+        Ereconnaissance.use(); ereconnaissance = true; ENEMY_ABILITIES--;
+      }
+      else{
+        targeting = false;
+        int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, possible_computer_targets.size()));
+        BB = possible_computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+        possible_computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+      }
+    }
+    return BB;
+  }
+  Box computer_accessVERYVERYHARD(){
+    Box BB = null; int A = int(random(0, 84)); int moar = 0;
+    if (computer_targets.size() > 0){
+      targeting = true;
+      for (int i = 0; i < computer_targets.size(); i++){
+        if (computer_targets.get(i).shotAt == true){
+          computer_targets.remove(i);
+          i--;
+        }
+      }
+    }
+    if (targeting == true && computer_targets.size() > 0 && moar != 0){
+      BB = computer_targets.get(0);
+      computer_targets.remove(0);
+      return BB;
+    }
+    else{
+      if (Dd == 0){
+        Dd++;
+        println("The enemy used their Nuke ability!");
+      }
+      else if (A < 14 && emissiles == true && ENEMY_ABILITIES > 0){
+        Emissiles.use(); emissiles = false; ENEMY_ABILITIES--; 
+      }
+      else if (A < 28 && ebomb == true && ENEMY_ABILITIES > 0){
+        Ebomb.use(); ebomb = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 42 && elaser == true && ENEMY_ABILITIES > 0){
+        Elaser.use(); elaser = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 56 && esonar == true && ENEMY_ABILITIES > 0){
+        Esonar.use(); esonar = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 70 && espontaneousexplosion == true && ENEMY_ABILITIES > 0){
+        Espontaneousexplosion.use(); espontaneousexplosion = false; ENEMY_ABILITIES--;
+      }
+      else if (A < 84 && ereconnaissance == true && ENEMY_ABILITIES > 0){
+        Ereconnaissance.use(); ereconnaissance = false; ENEMY_ABILITIES--;
+      }
+      else{
+        targeting = false;
+        int ABCDEFGHIJKLMNOPQRSTUVWXYZ = int(random(0, possible_computer_targets.size()));
+        BB = possible_computer_targets.get(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+        possible_computer_targets.remove(ABCDEFGHIJKLMNOPQRSTUVWXYZ);
+      }
+    }
+    return BB;
+  }
   Coords accessCoords(Grid GG, int r, int c){
     return GG.grid[r][c].coords;
   }
-  void PLAYERplays(int mx, int my, int difficulty){ //change this when you add abilities and corresponding buttons, so it doesn't end up with null pointer exception
+  void PLAYERplays(int mx, int my, int difficulty){ 
+    boolean a; boolean aa; boolean aaa;
+    if ((mx >= 1230 && mx <= 1410)){
+      aaa = true;
+    }
+    else{aaa = false;}//220 && mouseY <= 270
+    if ((my >= 220 && my <= 270) || (my >= 290 && my <= 340) || (my >= 360 && my <= 410) || (my >= 430 && my <= 480) || (my >= 500 && my <= 550) || (my >= 570 && my <= 620)){aa = true;}
+    else{aa = false;}
+    if (aa == true && aaa == true){
+      a = true;
+    }
+    else{a = false;}
+    if (in_play == true){
     int mx0 = mx - 5; int my0 = my - 150;
     int mx1 = mx0 / 21; int my1 = my0 / 21;
     int mxf0 = mx - 601; int myf0 = my - 150;
     int mxf1 = mxf0 / 21; int myf1 = myf0 / 21;
     Box b = playaccess(Egrid, my1, mx1);
     Box B = playaccess(Fgrid, myf1, mxf1);
-    if (b == null && B != null){
+    if (b == null && B != null && a == false){
       //println("ROW " + mx1 + " COL " + my1);
       if (funny == 0){
         println("Look before you shoot.");
@@ -201,7 +395,7 @@ class Grid{
       }
       funny++;
     }
-    else if (b == null && B == null){
+    else if (b == null && B == null && a == false){
       if (funni == 0){
         println("Look before you shoot.");
       }
@@ -262,6 +456,7 @@ class Grid{
       }
     }
     else if (b != null && B == null && b.shotAt == false){
+      just_used_ability = false;
       b.hit(true);
       if (b.state == HIT || b.state == BLACK){
         b.shotAt = true;
@@ -288,14 +483,64 @@ class Grid{
       COMPUTERplays = false;
     }
     if (COMPUTERplays == true && difficulty == Normal){
-      Box BB = computer_accessEASY(); //change to computer_accessNORMAL() after you make abilities
-      BB.hit(false);
-      if (BB.state == HIT || BB.state == BLACK){
-        BB.shotAt = true;
+      Box BB = computer_accessNORMAL(); 
+      if (BB != null){
+        BB.hit(false);
+        if (BB.state == HIT || BB.state == BLACK){
+          BB.shotAt = true;
+        }
+      }
+      COMPUTERplays = false;
+    }
+    if (COMPUTERplays == true && difficulty == Hard){
+      Box BB = computer_accessHARD();
+      if (BB != null){
+        BB.hit(false);
+        if (BB.state == HIT || BB.state == BLACK){
+          BB.shotAt = true;
+        }
+      }
+      COMPUTERplays = false;
+    }
+    if (COMPUTERplays == true && difficulty == VeryHard){
+      Box BB = computer_accessVERYHARD();
+      if (BB != null){
+        BB.hit(false);
+        if (BB.state == HIT || BB.state == BLACK){
+          BB.shotAt = true;
+        }
+      }
+      if (DEATH >= 10){
+        ENEMY_ABILITIES++;
+        DEATH = 0;
+      }
+      COMPUTERplays = false;
+    }
+    if (COMPUTERplays == true && difficulty == VeryVeryHard){
+      Box BB = computer_accessVERYVERYHARD();
+      if (BB != null){
+        BB.hit(false);
+        if (BB.state == HIT || BB.state == BLACK){
+          BB.shotAt = true;
+        }
+      }
+      if (DEATH >= 3){
+        println("The Nuke went off!");
+        defeat = true;
       }
       COMPUTERplays = false;
     }
   }
+  if (EHP <= 0 && played){
+    victory = true; showPage(VICTORY);
+  }
+  if (FHP <= 0 && played){
+    defeat = true; showPage(DEFEAT);
+  }
+  if (defeat){
+    showPage(DEFEAT);
+  }
+}
   void Eplace(){
     AC = new AircraftCarrier(0, 0, false); AC.EplaceAircraftCarrier(); ships.add(AC);
     BA = new Battleship(0, 0, false); BA.EplaceBattleship(); ships.add(BA);
@@ -376,20 +621,20 @@ class Grid{
         int T = ships.get(n).type;
         if (T == CRUISER){
           bb.HP = 2;
-          bb.shipState = ARMOR;
+          bb.shipState = CRUISER;
           bb.state = ARMOR;
         }
         if (T == BATTLESHIP){
           bb.HP = 3;
-          bb.shipState = HEAVY_ARMOR;
+          bb.shipState = BATTLESHIP;
           bb.state = HEAVY_ARMOR;
         }
         if (T == AIRCRAFT_CARRIER){
-          bb.shipState = GOLD;
+          bb.shipState = AIRCRAFT_CARRIER;
           bb.state = GOLD;
         }
         if (T == PATROL_BOAT){
-          bb.shipState = SHIP;
+          bb.shipState = PATROL_BOAT;
           bb.state = SHIP;
         }
         if (T == DESTROYER){
@@ -412,7 +657,7 @@ class Grid{
           bb.shipState = SUBMARINE;
           bb.state = SUBMARINE;
         }
-        bb.display_friendly(); //change to .display_initial() in the future
+        bb.display_initial(); //change to .display_initial() in the future
         bb.doHP(bb.shipState);
         //print(bb.toString());
       }
@@ -512,19 +757,19 @@ class Grid{
         ships.get(n).occupiedongrid.add(bb);        
         int T = ships.get(n).type;
         if (T == CRUISER){
-          bb.shipState = ARMOR;
+          bb.shipState = CRUISER;
           bb.state = ARMOR;
         }
         if (T == BATTLESHIP){
-          bb.shipState = HEAVY_ARMOR;
+          bb.shipState = BATTLESHIP;
           bb.state = HEAVY_ARMOR;
         }
         if (T == AIRCRAFT_CARRIER){
-          bb.shipState = GOLD;
+          bb.shipState = AIRCRAFT_CARRIER;
           bb.state = GOLD;
         }
         if (T == PATROL_BOAT){
-          bb.shipState = SHIP;
+          bb.shipState = PATROL_BOAT;
           bb.state = SHIP;
         }
         if (T == DESTROYER){

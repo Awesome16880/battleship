@@ -404,7 +404,7 @@ class Ship{
       for (int o = 0; o < occupiedongrid.size(); o++){
         int x = occupiedongrid.get(o).doHP(occupiedongrid.get(o).shipState);
         occupiedongrid.get(o).setHP(x);
-        occupiedongrid.get(o).display_friendly(); //change to display_initial() later
+        occupiedongrid.get(o).display_initial(); //change to display_initial() later
       }
       for (int p = 0; p < occupied.size(); p++){
         alive.add(occupied.get(p));
