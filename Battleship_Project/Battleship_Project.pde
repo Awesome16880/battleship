@@ -1,4 +1,6 @@
-//https://www.datagenetics.com/blog/december32011/
+//https://www.datagenetics.com/blog/december32011
+//Sound Library
+
 
 //box states
 int BLACK = 0; //miss #000000
@@ -24,7 +26,9 @@ int CURRENT_PAGE = 0;
 int HOME = 100;
 int HELP = 101;
 int A1 = 161; int A2 = 162;
-int D1= 191; 
+int S1 = 171; int S2 = 172;
+int R1 = 181; 
+int D1= 191; int D2 = 192;
 int SETTINGS = 102;
 int MENU = 110;
 int PLAY = 120;
@@ -101,7 +105,7 @@ ArrayList<Settings> SettingsArr = new ArrayList <Settings>();
 
 void setup(){
   size(1500, 705);
-  showPage(A2); //change to HOME later
+  showPage(S2); //change to HOME later
   cero = new Settings(425, 150, 50);
   uno = new Settings(525, 150, 50);  
   dos = new Settings(625, 150, 50); 
@@ -253,7 +257,7 @@ void mouseClicked(){
   if (CURRENT_PAGE == HELP && mouseX >= 240 && mouseX <= 1290 && mouseY >= 200 && mouseY <= 260){
     showPage(A1);
   }//rect(10, 10, 150, 40);
-  if (CURRENT_PAGE == A1 && mouseX >= 10 && mouseX <= 160 && mouseY >= 10 && mouseY <= 50){
+  if ((CURRENT_PAGE == A1 || CURRENT_PAGE == S1 || CURRENT_PAGE == D1 || CURRENT_PAGE == R1) && mouseX >= 10 && mouseX <= 160 && mouseY >= 10 && mouseY <= 50){
     showPage(HELP);
   }
   if (CURRENT_PAGE == A1 && mouseX >= 1340 && mouseX <= 1490 && mouseY >= 10 && mouseY <= 50){
@@ -264,6 +268,24 @@ void mouseClicked(){
   }
   if (CURRENT_PAGE == HELP && mouseX >= 240 && mouseX <= 1290 && mouseY >= 440 && mouseY <= 500){
     showPage(D1);
+  }
+  if (CURRENT_PAGE == D1 && mouseX >= 1340 && mouseX <= 1490 && mouseY >= 10 && mouseY <= 50){
+    showPage(D2);
+  }
+  if (CURRENT_PAGE == D2 && mouseX >= 10 && mouseX <= 160 && mouseY >= 10 && mouseY <= 50){
+    showPage(D1);
+  }
+  if (CURRENT_PAGE == HELP && mouseX >= 240 && mouseX <= 1290 && mouseY >= 280 && mouseY <= 340){
+    showPage(S1);
+  }
+  if (CURRENT_PAGE == S1 && mouseX >= 1340 && mouseX <= 1490 && mouseY >= 10 && mouseY <= 50){
+    showPage(S2);
+  }
+  if (CURRENT_PAGE == S2 && mouseX >= 10 && mouseX <= 160 && mouseY >= 10 && mouseY <= 50){
+    showPage(S1);
+  }
+  if (CURRENT_PAGE == HELP && mouseX >= 240 && mouseX <= 1290 && mouseY >= 360 && mouseY <= 420){
+    showPage(R1);
   }
 }
 
@@ -279,8 +301,20 @@ void showPage(){
   else if (CURRENT_PAGE == MENU){
     setUpMenu();
   }
+  else if (CURRENT_PAGE == S1){
+    setUpS1();
+  }
+  else if (CURRENT_PAGE == S2){
+    setUpS2();
+  }
+  else if (CURRENT_PAGE == R1){
+    setUpR1();
+  }
   else if (CURRENT_PAGE == D1){
     setUpD1();
+  }
+  else if (CURRENT_PAGE == D2){
+    setUpD2();
   }
   else if (CURRENT_PAGE == A1){
     setUpA1();
@@ -318,6 +352,122 @@ void showPage(){
     setUpVictory();
   }
 }
+void setUpR1(){ 
+  background(0);
+  fill(#CD7F32); 
+  rect(10, 10, 150, 40);
+  fill(#4997D0);
+  textSize(45);
+  text("RULES", 650, 60);
+  textSize(25);
+  text("1. Each player has the same number of each type of ship. Ships are set up in such a way that no ship overlaps with another.", 100, 110);
+  text("Ships are placed horizontally or vertically. However, ships may be adjacent with each other, so it is advised that you ", 100, 140);
+  text("familiarize yourself with the shape and/or length of each ship. Ship placement is randomly generated. Ships may not change", 100, 170);
+  text("position after being placed. Ships may not exit the grid. All ships are placed wholly within their respective grids.", 100, 200);
+  text("2. You (the player) and your opponent (the computer) will take turns shooting at the other's grid of ships via clicking on the", 100, 250);
+  text("desired square. If the square turns black, that (usually) means you missed. If the square turns red, that means you scored a hit.", 100, 280);
+  text("Unless otherwise indicated, players may only shoot once per turn, without regard for whether it was a miss or a hit.", 100, 310);
+  text("3. You will go first, unless indicated otherwise.", 100, 360);
+  text("4. The Abilities section of the screen consists of a number (0-6) green circles. These green circles indicate the number", 100, 410);
+  text("of abilities you have left. The abilities' boxes below indicate whether the corresponding ability has not been used yet", 100, 440);
+  text("(and therefore available) via a green fill color or if it has already been used via a red fill color. You may only use each", 100, 470);
+  text("ability once. You may only use abilities while you still have green circles in the Abilities section. You will not gain additional", 100, 500);
+  text("abilities once the game starts, and you will not be allowed to undo any abilities. Once you use it, it's gone. Also, using an", 100, 530);
+  text("ability counts as a turn, and play will proceed to the other player after an ability is used.", 100, 560);
+  text("5. To make things more challenging, it will NOT be announced whether or not you have completely sunk a ship or what type of ship has", 100, 610);
+  text("been hit or sunk. It is advised that you make inferences based upon the shapes and/or lengths of what you've hit so far to make an ", 100, 640);
+  text("educated guess as to what's left.", 100, 670);
+  fill(0);
+  textSize(20);
+  text("Back", 60, 35);
+}
+void setUpS2(){
+  background(0);
+  fill(#CD7F32); 
+  rect(10, 10, 150, 40);
+  fill(#F4C430);
+  textSize(30);
+  text("4. Hospital Ship (5x1)", 100, 110);
+  text("5. Destroyer (4x1)", 100, 200);
+  text("6. Frigate (3x1)", 100, 290);
+  text("7. Submarine (3x1)", 100, 380);
+  text("8. Reconnaissance Ship (1x1)", 100, 530);
+  text("9. Patrol Boat (1x1)", 100, 620);
+  textSize(25);
+  text("- This is an orange 5x1 ship.", 120, 140);
+  text("- This is a normal dark blue 4x1 ship.", 120, 230);
+  text("- This is a normal cyan 3x1 ship.", 120, 320);
+  text("- This is a submerged, green 3x1 ship. The special thing about the submarine is that when it is hit, it does NOT show up as \"hit\"", 120, 410);
+  text("  but instead, it displays itself as though you had missed it! You can't ever be too sure if that \"miss\" you just had was a real ", 120, 440);
+  text("  miss or if a submarine is just lurking below...", 120, 470);
+  text("- This is an olive green 1x1 ship.", 120, 560);
+  text("- This is a light purple 1x1 ship and is also the most common ship in the fleet.", 120, 650);
+  text("Page 2 of 2", 700, 675);
+  textSize(20);
+  fill(0);
+  text("Back", 60, 35);
+}
+void setUpS1(){
+  background(0);
+  fill(#CD7F32); 
+  rect(10, 10, 150, 40);
+  fill(#00FF00);
+  rect(1340, 10, 150, 40);
+  fill(#F4C430);
+  textSize(45);
+  text("SHIPS INFORMATION", 530, 60);
+  textSize(30);
+  text("1. Aircraft Carrier (11x1 + 3)", 100, 340);
+  text("2. Cruiser (6x1)", 100, 460);
+  text("3. Battleship (9x1)", 100, 580);
+  textSize(25);
+  text("In the game, the player and the computer are each given a fleet of ships. Each player's ship is randomly positioned within the", 100, 110);
+  text("player's grid. Because of the way the computer's AI (targeting algorithm) works and the large number of ships in each fleet,", 100, 140);
+  text("it is not necessary (and probably tedious) for the player to place their own ships, hence such a feature is not available.", 100, 170);
+  text("Each fleet consists of 46 ships: 1 aircraft carrier, 1 battleship, 1 hospital ship, 4 cruisers, 8 destroyers, 16 patrols, ", 100, 220);
+  text("3 reconnaissance ships, and 2 submarines. Each ship either has a different length, a different shape, or different attributes", 100, 250);
+  text("that makes it distinct from the other types of ship, as described below.", 100, 280);
+  text("- This ship has a shape distinct from all the others; rather than having the traditional width of 1, the aircraft carrier", 120, 370);
+  text("  possesses an additional extension off to its side. This ship is also the largest one in the fleet and is bright gold", 120, 400);
+  text("- This ship possesses armor that allows each segment of it to withstand an additional hit. You can think of this as the ", 120, 490);
+  text("  ship having twice the usual amount of HP of a regular ship of its size would have. This ship is light gray.", 120, 520);
+  text("- This ship possesses powerful armor that allows each segment of it to withstand TWO additional hits! This ship is dark gray", 120, 610);
+  text("  and is the second largest ship in the fleet.", 120, 640);
+  text("Page 1 of 2", 700, 675);
+  fill(0);
+  textSize(20);
+  text("Back", 60, 35);
+  text("Next", 1390, 35);
+}
+void setUpD2(){
+  background(0);
+  fill(#CD7F32); 
+  rect(10, 10, 150, 40);
+  fill(#50C878);
+  textSize(30);
+  text("4. Challenger (Represented by Orange)", 100, 110);
+  text("5. Fiendish (Represented by Bright Red)", 100, 290);
+  text("6. Apocalyptic (Represented by Dark Red)", 100, 530);
+  textSize(25);
+  text("- \"Challenge Accepted.\"", 120, 140);
+  text("- A difficult opponent to best.", 120, 170);
+  text("- The opponent may use each ability only once and can use all 6 abilities.", 120, 200);
+  text("- There is a 2.5% chance that the opponent uses abilities on consecutive turns.", 120, 230);
+  text("- \"War is hell, the home of the fiends.\"", 120, 320);
+  text("- An incredibly intimidating opponent presenting the daunting task of defeating it.", 120, 350);
+  text("- The Master of Battleship and the Lord of the Seven Seas.", 120, 380);
+  text("- The opponent begins with 6 abilities, but for every 10 times you miss (excluding misses due to abilities),", 120, 410);
+  text("the opponent will gain 1 ability, without a cap.", 120, 440);
+  text("- With every miss (excluding misses due to abilities), the chance of the opponent using abilities on consecutive turns increases.", 120, 470);
+  text("- \"Good luck. Because you're going to need it.\"", 120, 560);
+  text("- Literally Death, Horseman of the Apocalypse.", 120, 590);
+  text("- Similar to Fiendish difficulty, but with the added threat of the Nuke. (See the Abilities section for more information.)", 120, 620);
+  text("- Hopefully you know how to survive nuclear weapons...", 120, 650);
+  text("Page 2 of 2", 700, 675);
+  fill(0);
+  textSize(20);
+  text("Back", 60, 35);
+}
 void setUpD1(){
   background(0);
   fill(#CD7F32); 
@@ -326,7 +476,29 @@ void setUpD1(){
   rect(1340, 10, 150, 40);
   fill(#50C878);
   textSize(45);
-  text("DIFFICULTY INFORMATION", 660, 60);
+  text("DIFFICULTY INFORMATION", 500, 60);
+  textSize(30);
+  text("1. Brain-dead (Represented by Dark Green)", 100, 260);
+  text("2. Simple (Represented by Light Green)", 100, 380);
+  text("3. Balanced (Represented by Yellow)", 100, 500);
+  textSize(25);
+  text("There are six different difficulty levels available, each to suit the skill levels of different players. The difficulty levels are divided", 100, 110);
+  text("into two branches: Casual and Master. The former consists of the levels Brain-dead, Simple, and Balanced. These difficulty levels ", 100, 140);
+  text("are meant for beginners and those looking for casual fun. The latter consists of Challenger, Fiendish, and Apocalyptic. These ", 100, 170);
+  text("difficulty levels are designed for those who have mastered the game, those looking for a challenge, and experienced veterans.", 100, 200);
+  text("- \"Can I play, Daddy?\"", 120, 290);
+  text("- An incredibly foolish opponent that just fires randomly, without regard for anything else. No abilities available to the Computer.", 120, 320);
+  text("- \"Take it easy.\"", 120, 410);
+  text("- An opponent that employs basic strategy. No abilities available to the Computer.", 120, 440);
+  text("- \"Perfectly balanced, as all things should be.\"", 120, 530);
+  text("- A relatively capable opponent that incorporates different abilities into its strategy.", 120, 560);
+  text("- The opponent may use each ability only once, can use up to any 3 abilities, and cannot use abilities on consecutive turns.", 120, 590);
+  text("- This is basically the default setting for the player.", 120, 620);
+  text("Page 1 of 2", 700, 675);
+  fill(0);
+  textSize(20);
+  text("Back", 60, 35);
+  text("Next", 1390, 35);
 }
 void setUpA2(){
   background(0);
@@ -334,15 +506,16 @@ void setUpA2(){
   rect(10, 10, 150, 40);
   fill(#FF2052);
   textSize(30);
-  text("5. Spontaoneous Explosion", 100, 110); 
+  text("5. Spontaneous Explosion", 100, 110); 
   text("6. Reconnaissance", 100, 210);
   text("7. Nuke", 100, 375);
   textSize(25);
   text("- destroys all enemy 1x1 ships", 120, 150);
-  text("- reveals all enemy surface vessels located within a series of squares in a large diamond-like formation", 120, 250);
+  text("- reveals all enemy surface vessels located within a series of squares in a large diamond-like formation (targets selected at random)", 120, 250);
   text("- using this ability counts as a move, although it initially does nothing", 120, 415);
   text("- if the player misses 3 consecutive times after this ability is used, the nuke goes off, destroying all of the player's ships", 120, 445);
   text("- misses due to abilities do not contribute towards this", 120, 475);
+  text("- This is only available to the Computer on Apocalyptic difficulty", 120, 505);
   text("Page 2 of 2", 700, 675);
   textSize(45);
   text("COMPUTER ABILITIES (Available to the Computer Only)", 100, 315);
@@ -369,9 +542,9 @@ void setUpA1(){
   text("The Battleship grid of this game is 26x26, meaning there are 676 squares. Typically, a majority of the squares have to be hit", 100, 110);
   text("in order for the game to end. That's quite a lot of squares you'd have to press. As a result, Abilities are part of the game!", 100, 140);
   text("Abilities are used to help the player defeat the computer opponent in a more timely and more fun manner.", 100, 170);
-  text("- shoots at 75 random squares that have not been hit yet", 120, 315);
-  text("- utterly annihilates a series of squares in a diamond-like formation", 120, 415);
-  text("- utterly annihilates a square, its row, its column, and additional squares in a diagonal pattern", 120, 515);
+  text("- shoots at 75 squares that have not been hit yet (targets selected at random)", 120, 315);
+  text("- utterly annihilates a series of squares in a diamond-like formation (targets selected at random)", 120, 415);
+  text("- utterly annihilates a square, its row, its column, and additional squares in a diagonal pattern (targets selected at random)", 120, 515);
   text("- reveals the location of enemy submarines", 120, 615);
   text("Page 1 of 2", 700, 675);
   fill(0);

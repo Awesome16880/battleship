@@ -194,7 +194,7 @@ class Grid{
     return BB;
   }
   Box computer_accessHARD(){
-    Box BB = null; int A = int(random(0, 100)); int moar = int(random(0, 100));
+    Box BB = null; int A = int(random(0, 100)); int moar = int(random(0, 40));
     if (computer_targets.size() > 0){
       targeting = true;
       for (int i = 0; i < computer_targets.size(); i++){
@@ -283,7 +283,8 @@ class Grid{
     return BB;
   }
   Box computer_accessVERYVERYHARD(){
-    Box BB = null; int A = int(random(0, 84)); int moar = 0;
+    Box BB = null; int A = int(random(0, 84)); int moar = int(random(0, 100));
+    float K = ALLDEATH * 1.5; float RQ = K * 10; int MOAR = moar * 10; boolean QR = MOAR < RQ;
     if (computer_targets.size() > 0){
       targeting = true;
       for (int i = 0; i < computer_targets.size(); i++){
@@ -293,7 +294,7 @@ class Grid{
         }
       }
     }
-    if (targeting == true && computer_targets.size() > 0 && moar != 0){
+    if (targeting == true && computer_targets.size() > 0 && !QR && Dd != 0){
       BB = computer_targets.get(0);
       computer_targets.remove(0);
       return BB;
