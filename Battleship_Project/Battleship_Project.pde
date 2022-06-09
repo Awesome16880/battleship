@@ -105,7 +105,7 @@ ArrayList<Settings> SettingsArr = new ArrayList <Settings>();
 
 void setup(){
   size(1500, 705);
-  showPage(S2); //change to HOME later
+  showPage(HOME); //change to HOME later
   cero = new Settings(425, 150, 50);
   uno = new Settings(525, 150, 50);  
   dos = new Settings(625, 150, 50); 
