@@ -1,5 +1,4 @@
 class Submarine extends Ship{
-  //if friendly display, else hide
   Submarine(int xx, int yy, boolean F){
     super(xx, yy, SUBMARINE, F);
   }
@@ -11,13 +10,6 @@ class Submarine extends Ship{
     this.Length = 3;
     this.HP = 3;
     boolean z = super.EDo();
-    //while (z){
-    //  boolean zz = super.EDo();
-    //  if (zz == false){
-    //    z = false;
-    //    break;
-    //  }
-    //}
   }
   void FplaceSubmarine(){
     this.type = SUBMARINE;

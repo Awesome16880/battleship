@@ -10,13 +10,6 @@ class PatrolBoat extends Ship{
     this.Length = 1;
     this.HP = 1;
     boolean z = super.EDo();
-    //while (z){
-    //  boolean zz = super.EDo();
-    //  if (zz == false){
-    //    z = false;
-    //    break;
-    //  }
-    //}
   }
   void FplacePatrolBoat(){
     this.type = PATROL_BOAT;

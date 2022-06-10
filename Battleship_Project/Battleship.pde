@@ -10,13 +10,6 @@ class Battleship extends Ship{
     this.Length = 9;
     this.HP = 27; //9 boxes, 3 HP each
     boolean z = super.EDo();
-    //while (z){
-    //  boolean zz = super.EDo();
-    //  if (zz == false){
-    //    z = false;
-    //    break;
-    //  }
-    //}
   }
   void FplaceBattleship(){
     this.type = BATTLESHIP;

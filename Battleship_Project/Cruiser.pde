@@ -10,13 +10,6 @@ class Cruiser extends Ship{
     this.Length = 6;
     this.HP = 12; // 6 boxes, 2 HP each
     boolean z = super.EDo();
-    //while (z){
-    //  boolean zz = super.EDo();
-    //  if (zz == false){
-    //    z = false;
-    //    break;
-    //  }
-    //}
   }
   void FplaceCruiser(){
     this.type = CRUISER;

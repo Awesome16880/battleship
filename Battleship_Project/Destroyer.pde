@@ -10,13 +10,6 @@ class Destroyer extends Ship{
     this.Length = 4;
     this.HP= 4;
     boolean z = super.EDo();
-    //while (z){
-    //  boolean zz = super.EDo();
-    //  if (zz == false){
-    //    z = false;
-    //    break;
-    //  }
-    //}
   }
   void FplaceDestroyer(){
     this.type = DESTROYER;

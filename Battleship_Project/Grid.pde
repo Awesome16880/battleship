@@ -33,8 +33,6 @@ class Grid{
   
   Grid(){
     NULL = new Box();
-    //for used arraylist: 140 spaces occupied by ships 
-    //for ships arraylist: keep track of the ships
   }
   void drawGridEnemy(){
     int x = enemystartx;
@@ -43,8 +41,7 @@ class Grid{
     for (int r = 0; r < rows; r++){
       for (int c = 0; c < cols; c++){
         Box bb;
-        //make true during testing, false for the real thing
-        bb = new Box(x, y, side, WHITE, true);
+        bb = new Box(x, y, side, WHITE, false);
         Coords coord = new Coords(x, y, Egrid, false);
         bb.coords = coord;
         coord.box = bb;
@@ -339,7 +336,7 @@ class Grid{
     if ((mx >= 1230 && mx <= 1410)){
       aaa = true;
     }
-    else{aaa = false;}//220 && mouseY <= 270
+    else{aaa = false;}
     if ((my >= 220 && my <= 270) || (my >= 290 && my <= 340) || (my >= 360 && my <= 410) || (my >= 430 && my <= 480) || (my >= 500 && my <= 550) || (my >= 570 && my <= 620)){aa = true;}
     else{aa = false;}
     if (aa == true && aaa == true){
@@ -464,7 +461,7 @@ class Grid{
       }
       //println("ROW " + mx1 + " COL " + my1);
       COMPUTERplays = true;
-    } //CURRENT
+    } 
     else{
     }
     if (COMPUTERplays == true && difficulty == VeryEasy){
@@ -615,7 +612,6 @@ class Grid{
       ships.add(s.get(m));
     }
     for (int n = 0; n < ships.size(); n++){
-      //link the ships' coords to the boxes, then make the boxes display
       for (int nn = 0; nn < ships.get(n).occupied.size(); nn++){
         Box bb = ships.get(n).occupied.get(nn).link(Egrid, ships.get(n).occupied.get(nn));
         ships.get(n).occupiedongrid.add(bb);
@@ -658,26 +654,13 @@ class Grid{
           bb.shipState = SUBMARINE;
           bb.state = SUBMARINE;
         }
-        bb.display_initial(); //change to .display_initial() in the future
+        bb.display_initial(); 
         bb.doHP(bb.shipState);
-        //print(bb.toString());
       }
       for (int o = 0; o < ships.size(); o++){
         aliveShips.add(ships.get(o));
       }
     }
-    //for (int o = 0; o < ships.size(); o++){
-    //  for (int oo = 0; oo < ships.get(o).occupiedongrid.size(); oo++){
-    //    int T = ships.get(o).occupiedongrid.get(oo).getHP();
-    //    if (T == BATTLESHIP){
-    //      ships.get(o).occupiedongrid.get(oo).setHP(3);
-    //    }
-    //    if (T == CRUISER){
-    //      ships.get(o).occupiedongrid.get(oo).setHP(2);
-    //    }
-    //    print(ships.get(o).occupiedongrid.get(oo).toString());
-    //  }
-    //}
   }
   void Fplace(){
     AC = new AircraftCarrier(0, 0, true); AC.FplaceAircraftCarrier(); ships.add(AC);
@@ -752,7 +735,6 @@ class Grid{
       ships.add(s.get(m));
     }
     for (int n = 0; n < ships.size(); n++){
-      //link the ships' coords to the boxes, then make the boxes display
       for (int nn = 0; nn < ships.get(n).occupied.size(); nn++){
         Box bb = ships.get(n).occupied.get(nn).link(Fgrid, ships.get(n).occupied.get(nn));
         ships.get(n).occupiedongrid.add(bb);        
@@ -795,7 +777,6 @@ class Grid{
         }
         bb.display_friendly(); 
         bb.doHP(bb.shipState);
-        //print(bb.toString());
       }
     }
     for (int o = 0; o < ships.size(); o++){

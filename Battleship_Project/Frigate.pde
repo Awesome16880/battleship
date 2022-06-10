@@ -10,13 +10,6 @@ class Frigate extends Ship{
     this.Length = 3;
     this.HP = 3;
     boolean z = super.EDo();
-    //while (z){
-    //  boolean zz = super.EDo();
-    //  if (zz == false){
-    //    z = false;
-    //    break;
-    //  }
-    //}
   }
   void FplaceFrigate(){
     this.type = FRIGATE;

@@ -10,13 +10,6 @@ class AircraftCarrier extends Ship{
     this.Length = 11;
     this.HP = 14; //11 boxes, plus the 3 box extension
     boolean z = super.EDo();
-    //while (z){
-    //  boolean zz = super.EDo();
-    //  if (zz == false){
-    //    z = false;
-    //    break;
-    //  }
-    //}
   }
   void FplaceAircraftCarrier(){
     this.type = AIRCRAFT_CARRIER;

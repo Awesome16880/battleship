@@ -1,12 +1,11 @@
 class Box {
-  //to be used to make the map/grid
   int x;
   int y;
   int side;
-  int state; //play state
-  int prevState; //previous play state
-  int shipState; //ship type
-  boolean Display; //use to hide enemy ships
+  int state; 
+  int prevState; 
+  int shipState; 
+  boolean Display; 
   Coords coords;
   boolean occupied;
   boolean useful;
@@ -106,10 +105,11 @@ class Box {
   }
   void autoSink(boolean isPlayer){
     int s = this.HP; 
-    if (isPlayer && (!(s < -100 && this.state != HIT))){
+    boolean M = s > 0; boolean K = this.state != HIT;
+    if (isPlayer && (M && K)){
       EHP = EHP - s;
     }
-    if (!isPlayer && (!(s < -100 && this.state != HIT))){
+    if (!isPlayer && ((M && K))){
       FHP = FHP - s;
     }
     if ((s < -100 && this.state != HIT) || this.shipState == SUBMARINE){
@@ -123,18 +123,18 @@ class Box {
   void hit(boolean isPlayer) {
     int s = this.HP; 
     this.HP = this.HP - 1;
-    if (isPlayer && (!(s < -100 && this.state != HIT))){
-      EHP--;
-    }
-    if (!isPlayer && (!(s < -100 && this.state != HIT))){
-      FHP--;
-    }
     if (veryEasy){
       if ((s < -100 && this.state != HIT) || this.shipState == SUBMARINE){
         display_miss();
       }
       else{
         display_hit();
+        if (isPlayer){
+          EHP--;
+        }
+        if (!isPlayer){
+          FHP--;
+        }
       }
     }
     if (!veryEasy){
@@ -157,6 +157,12 @@ class Box {
       }
       else {
         display_hit();
+        if (isPlayer){
+          EHP--;
+        }
+        if (!isPlayer){
+          FHP--;
+        }
         if (isPlayer && veryveryHard && !just_used_ability){
           DEATH = 0;  
         }
@@ -224,7 +230,6 @@ class Box {
     square(x, y, side);
   }
   void display_enemy() {
-    //use while in play, don't display any of the enemy's ships
     if (state == BLACK) {
       fill(#000000);
       square(x, y, side);
@@ -241,7 +246,6 @@ class Box {
     else if (state == HIT && prevState == SUBMARINE) {
       fill(#000000);
       square(x, y, side);
-      //don't show hit submarines
     } 
     else if (state == HIT && prevState == ARMOR) {
       state = SHIP;
@@ -257,7 +261,6 @@ class Box {
     }
   }
   void display_friendly() {
-    //use while in play, display all friendly ships
     if (state == BLACK) {
       fill(#000000);
     } 

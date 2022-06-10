@@ -1,19 +1,4 @@
 class Ship{
-  //possible idea: ship that can protect nearby ships via force field
-  //prototypes: 
-  //patrol boat, 1x1, normal ship #B19CD9
-  //frigate, 3x1, normal ship #B19CD9
-  //destroyer, 4x1, normal ship #B19CD9
-  //cruiser, 6x1, armored ship #A9A9A9
-  //battleship, 9x1, heavily armored ship #696969
-  //aircraft carrier, 11x1 with some pieces sticking out, normal ship #FFDB51 (bright gold)
-  //submarine, 3x1, submarine #00FF00 (hide from view even when hit)
-  //hospital ship, 5x1, hospital ship #FF7700
-  //reconnaissance ship, 1x1, reconnaissance ship
-  
-  //fleet: 1 aircraft carrier, 1 battleship, 2 submarines, 4 cruisers, 8 destroyers, 10 frigates, 16 patrol boats, 1 hospital ship, 3 reconnaissance ships
-  
-  
   int x; 
   int y; 
   int type; 
@@ -25,10 +10,10 @@ class Ship{
   int HP;
   boolean isAlive;
   boolean Friendly;
-  boolean directionUP; //true for going up from head
-  boolean directionDW; //true for going down from head
-  boolean directionLL; //true for going left 
-  boolean directionRR; //true for going right
+  boolean directionUP; 
+  boolean directionDW; 
+  boolean directionLL;  
+  boolean directionRR; 
   boolean pointN; boolean pointW; boolean pointE; boolean pointS;
   ArrayList<Coords> occupied = new ArrayList<Coords>(); 
   ArrayList<Coords> suggested = new ArrayList<Coords>();
@@ -337,7 +322,7 @@ class Ship{
     }
     return A;
   }
-  boolean EDo(){ //return true if there's a problem, false if it's good to go
+  boolean EDo(){ 
     ArrayList<Coords> Q = Esuggest(false); 
     int III = 0; 
     for (int a = 0; a < Q.size(); a++){
@@ -347,17 +332,6 @@ class Ship{
     boolean z = EOverlap(Q); 
     while(z){
       ArrayList<Coords> R = Esuggest(true);
-      //println(III + " III");
-      //println("Q"); println(Q.size());
-      //for (int p = 0; p < Q.size(); p++){
-      //  String s = Q.get(p).toString();
-      //  println(s);
-      //}
-      //println("R"); println(R.size());
-      //for (int p = 0; p < R.size(); p++){
-      //  String s = R.get(p).toString();
-      //  println(s);
-      //}
       if (III >= 10){
         Q.clear();
         R.clear();
@@ -383,7 +357,6 @@ class Ship{
     for (int ii = 0; ii < Q.size(); ii++){
       Q.get(ii).type = this.type;
     }
-    //println(Q.size() + "AAAAAAAAAAAA");
     for(int i = 0; i < Q.size(); i++){
       suggested.add(Q.get(i));
       suggested.get(i).occupied = true;
@@ -404,7 +377,7 @@ class Ship{
       for (int o = 0; o < occupiedongrid.size(); o++){
         int x = occupiedongrid.get(o).doHP(occupiedongrid.get(o).shipState);
         occupiedongrid.get(o).setHP(x);
-        occupiedongrid.get(o).display_initial(); //change to display_initial() later
+        occupiedongrid.get(o).display_initial(); 
       }
       for (int p = 0; p < occupied.size(); p++){
         alive.add(occupied.get(p));
@@ -520,21 +493,9 @@ class Ship{
     for (int a = 0; a < Q.size(); a++){
       Q.get(a).type = this.type;
     }
-    //println(Q.size() + "KK");
     boolean z = FOverlap(Q); 
     while(z){
       ArrayList<Coords> R = Fsuggest(true);
-      //println(III + " III");
-      //println("QQ"); println(Q.size());
-      //for (int p = 0; p < Q.size(); p++){
-      //  String s = Q.get(p).toString();
-      //  println(s);
-      //}
-      //println("RR"); println(R.size());
-      //for (int p = 0; p < R.size(); p++){
-      //  String s = R.get(p).toString();
-      //  println(s);
-      //}
       if (III >= 10){
         Q.clear();
         R.clear();
@@ -560,7 +521,6 @@ class Ship{
     for (int ii = 0; ii < Q.size(); ii++){
       Q.get(ii).type = this.type;
     }
-    //println(Q.size() + "AAAAAAAAAAAA");
     for(int i = 0; i < Q.size(); i++){
       suggested.add(Q.get(i));
       suggested.get(i).occupied = true;
@@ -592,7 +552,7 @@ class Ship{
     }
     return false;
   }
-  boolean EOverlap(ArrayList<Coords> q){ //true for overlap, false if it's good to go
+  boolean EOverlap(ArrayList<Coords> q){ 
     if (this.type == AIRCRAFT_CARRIER){
       return false;
     }

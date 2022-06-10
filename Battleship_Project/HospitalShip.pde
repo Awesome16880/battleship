@@ -10,13 +10,6 @@ class HospitalShip extends Ship{
     this.Length = 5;
     this.HP = 5;
     boolean z = super.EDo();
-    //while (z){
-    //  boolean zz = super.EDo();
-    //  if (zz == false){
-    //    z = false;
-    //    break;
-    //  }
-    //}
   }
   void FplaceHospitalShip(){
     this.type = HOSPITAL_SHIP;

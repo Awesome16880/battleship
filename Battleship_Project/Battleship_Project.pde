@@ -1,7 +1,3 @@
-//https://www.datagenetics.com/blog/december32011
-//Sound Library
-
-
 //box states
 int BLACK = 0; //miss #000000
 int WHITE = 1; //blank/untouched
@@ -12,14 +8,13 @@ int HEAVY_ARMOR = 31; //heavily armored ship #696969 (dark gray)
 int GOLD = 41; //used for the aircraft carrier #FFDB51 (bright gold)
 int HOSPITAL_SHIP = 68; //hospital ship #FF7700 (fire orange)
 int SUBMARINE = 69; //submarine #22D055 (dark green)
-//submarine is to be camouflaged/submerged 
 int PATROL_BOAT = 70;
 int FRIGATE = 71;
 int DESTROYER = 72;
 int CRUISER = 73;
 int BATTLESHIP = 74;
 int AIRCRAFT_CARRIER = 75;
-int RECONNAISSANCE_SHIP = 76; //reconnaissance ship #78866B
+int RECONNAISSANCE_SHIP = 76; //reconnaissance ship #78866B (Camouflage Green)
 
 //game states
 int CURRENT_PAGE = 0;
@@ -35,10 +30,8 @@ int PLAY = 120;
 int DEFEAT = 444;
 int VICTORY = 555;
 boolean in_play = false; boolean defeat = false; boolean victory = false; boolean played = false;
-int computer_hit_compass = 0;
-int computer_hit_streak = 0;
 boolean targeting = false;
-Box target_basis = null; //use this to aid the computer in determining which box to go for after securing a hit
+Box target_basis = null; 
 ArrayList<Box> possible_computer_targets = new ArrayList<Box>();
 ArrayList<Box> computer_targets = new ArrayList<Box>();
 ArrayList<Box> possible_targets = new ArrayList<Box>();
@@ -80,17 +73,17 @@ Ability circleLight1; Ability circleLight2; Ability circleLight3; Ability circle
 boolean fmissiles; boolean fbomb; boolean flaser; boolean fsonar; boolean fspontaneousexplosion; boolean freconnaissance; boolean usedsonar;
 boolean emissiles; boolean ebomb; boolean elaser; boolean esonar; boolean espontaneousexplosion; boolean ereconnaissance; 
 int missiles = 900; int bomb = 901; int laser = 902; int sonar = 903; int spontaneousexplosion = 904; int reconnaissance = 905; 
-Ability Fmissiles = new Ability(missiles, true, 1230, 220, 180, 50); //randomly hits 75 squares
+Ability Fmissiles = new Ability(missiles, true, 1230, 220, 180, 50); 
 Ability Emissiles = new Ability(missiles, false);
-Ability Fbomb = new Ability(bomb, true, 1230, 290, 180, 50); //utterly destroys 61 squares in a diamond-like formation
+Ability Fbomb = new Ability(bomb, true, 1230, 290, 180, 50);  
 Ability Ebomb = new Ability(bomb, false);
-Ability Flaser = new Ability(laser, true, 1230, 360, 180, 50); //utterly destroys all squares that share target's row and/or column, plus 12 squares closest to target on the target's diagonals (63 squares)
+Ability Flaser = new Ability(laser, true, 1230, 360, 180, 50);  
 Ability Elaser = new Ability(laser, false);
-Ability Fsonar = new Ability(sonar, true, 1230, 430, 180, 50); //reveal opposing submarines
+Ability Fsonar = new Ability(sonar, true, 1230, 430, 180, 50);  
 Ability Esonar = new Ability(sonar, false);
-Ability Fspontaneousexplosion = new Ability(spontaneousexplosion, true, 1230, 500, 180, 50); //forces all 1x1 ships to explode
+Ability Fspontaneousexplosion = new Ability(spontaneousexplosion, true, 1230, 500, 180, 50);  
 Ability Espontaneousexplosion = new Ability(spontaneousexplosion, false);
-Ability Freconnaissance = new Ability(reconnaissance, true, 1230, 570, 180, 50); //reveals a huge section of the map, without exposing submarines
+Ability Freconnaissance = new Ability(reconnaissance, true, 1230, 570, 180, 50);  
 Ability Ereconnaissance = new Ability(reconnaissance, false);
 
 //settings
@@ -105,7 +98,7 @@ ArrayList<Settings> SettingsArr = new ArrayList <Settings>();
 
 void setup(){
   size(1500, 705);
-  showPage(HOME); //change to HOME later
+  showPage(HOME); 
   cero = new Settings(425, 150, 50);
   uno = new Settings(525, 150, 50);  
   dos = new Settings(625, 150, 50); 
@@ -256,7 +249,7 @@ void mouseClicked(){
   }
   if (CURRENT_PAGE == HELP && mouseX >= 240 && mouseX <= 1290 && mouseY >= 200 && mouseY <= 260){
     showPage(A1);
-  }//rect(10, 10, 150, 40);
+  }
   if ((CURRENT_PAGE == A1 || CURRENT_PAGE == S1 || CURRENT_PAGE == D1 || CURRENT_PAGE == R1) && mouseX >= 10 && mouseX <= 160 && mouseY >= 10 && mouseY <= 50){
     showPage(HELP);
   }
@@ -366,7 +359,7 @@ void setUpR1(){
   text("position after being placed. Ships may not exit the grid. All ships are placed wholly within their respective grids.", 100, 200);
   text("2. You (the player) and your opponent (the computer) will take turns shooting at the other's grid of ships via clicking on the", 100, 250);
   text("desired square. If the square turns black, that (usually) means you missed. If the square turns red, that means you scored a hit.", 100, 280);
-  text("Unless otherwise indicated, players may only shoot once per turn, without regard for whether it was a miss or a hit.", 100, 310);
+  text("Unless indicated otherwise, players may only shoot once per turn, without regard for whether it was a miss or a hit.", 100, 310);
   text("3. You will go first, unless indicated otherwise.", 100, 360);
   text("4. The Abilities section of the screen consists of a number (0-6) green circles. These green circles indicate the number", 100, 410);
   text("of abilities you have left. The abilities' boxes below indicate whether the corresponding ability has not been used yet", 100, 440);
@@ -400,7 +393,7 @@ void setUpS2(){
   text("- This is a submerged, green 3x1 ship. The special thing about the submarine is that when it is hit, it does NOT show up as \"hit\"", 120, 410);
   text("  but instead, it displays itself as though you had missed it! You can't ever be too sure if that \"miss\" you just had was a real ", 120, 440);
   text("  miss or if a submarine is just lurking below...", 120, 470);
-  text("- This is an olive green 1x1 ship.", 120, 560);
+  text("- This is an camouflage green/olive green 1x1 ship.", 120, 560);
   text("- This is a light purple 1x1 ship and is also the most common ship in the fleet.", 120, 650);
   text("Page 2 of 2", 700, 675);
   textSize(20);
@@ -457,7 +450,7 @@ void setUpD2(){
   text("- An incredibly intimidating opponent presenting the daunting task of defeating it.", 120, 350);
   text("- The Master of Battleship and the Lord of the Seven Seas.", 120, 380);
   text("- The opponent begins with 6 abilities, but for every 10 times you miss (excluding misses due to abilities),", 120, 410);
-  text("the opponent will gain 1 ability, without a cap.", 120, 440);
+  text("the opponent will gain 1 ability, without a cap on abilities.", 120, 440);
   text("- With every miss (excluding misses due to abilities), the chance of the opponent using abilities on consecutive turns increases.", 120, 470);
   text("- \"Good luck. Because you're going to need it.\"", 120, 560);
   text("- Literally Death, Horseman of the Apocalypse.", 120, 590);
@@ -511,9 +504,9 @@ void setUpA2(){
   text("7. Nuke", 100, 375);
   textSize(25);
   text("- destroys all enemy 1x1 ships", 120, 150);
-  text("- reveals all enemy surface vessels located within a series of squares in a large diamond-like formation (targets selected at random)", 120, 250);
+  text("- reveals enemy surface vessels located within a series of squares in a large diamond-like formation (initial target selected at random)", 120, 250);
   text("- using this ability counts as a move, although it initially does nothing", 120, 415);
-  text("- if the player misses 3 consecutive times after this ability is used, the nuke goes off, destroying all of the player's ships", 120, 445);
+  text("- if the other player misses 3 consecutive times after this ability is used, the nuke goes off, destroying all of their ships", 120, 445);
   text("- misses due to abilities do not contribute towards this", 120, 475);
   text("- This is only available to the Computer on Apocalyptic difficulty", 120, 505);
   text("Page 2 of 2", 700, 675);
@@ -543,8 +536,8 @@ void setUpA1(){
   text("in order for the game to end. That's quite a lot of squares you'd have to press. As a result, Abilities are part of the game!", 100, 140);
   text("Abilities are used to help the player defeat the computer opponent in a more timely and more fun manner.", 100, 170);
   text("- shoots at 75 squares that have not been hit yet (targets selected at random)", 120, 315);
-  text("- utterly annihilates a series of squares in a diamond-like formation (targets selected at random)", 120, 415);
-  text("- utterly annihilates a square, its row, its column, and additional squares in a diagonal pattern (targets selected at random)", 120, 515);
+  text("- utterly annihilates a series of squares in a diamond-like formation (initial target selected at random)", 120, 415);
+  text("- utterly annihilates a square, its row, its column, and additional squares in a diagonal pattern (initial target selected at random)", 120, 515);
   text("- reveals the location of enemy submarines", 120, 615);
   text("Page 1 of 2", 700, 675);
   fill(0);
@@ -672,6 +665,9 @@ void setUpHome(){
   fill(#800080); //violet
   textSize(45);
   text("Made by and Developed by Nelson So", 439, 280);
+  textSize(25);
+  text("via Java Processing", 665, 320);
+  textSize(45);
   fill(#00FF00);
   rect(240, 400, 1050, 80);
   fill(0);
@@ -697,8 +693,8 @@ void setUpPlay(){
   fmissiles = true; fbomb = true; flaser = true; fsonar = true; fspontaneousexplosion = true; freconnaissance = true;
   emissiles = true; ebomb = true; elaser = true; esonar = true; espontaneousexplosion = true; ereconnaissance = true;
   usedsonar = false; DEATH = 0; ALLDEATH = 0;
-  EHP = 181; //HP of all enemy ships combined in enemy grid
-  FHP = 181; //HP of all friendly ships combined in friendly grid
+  EHP = 181; 
+  FHP = 181; 
   if (circleLight1 != null){circleLight1.abilitylights(); }
   if (circleLight2 != null){circleLight2.abilitylights(); }
   if (circleLight3 != null){circleLight3.abilitylights(); }
@@ -718,8 +714,6 @@ void setUpPlay(){
   textSize(18);
   fill(0);
   text("Missiles", 1280, 250); text("Carpet  Bombing", 1260, 320); text("Laser", 1288, 390); text("Sonar", 1288, 460); text("Spontaneous Explosion", 1233, 530); text("Reconnaissance", 1258, 600);
-  //text("Please view the console to see actions.", 30, 55); //"Enemy Action"
-  //text("Your Action:", 620, 55);
   textSize(50);
   text("BATTLESHIP", 50, 60);
   if (veryEasy){text("Difficulty: Brain-dead", 400, 60);}
