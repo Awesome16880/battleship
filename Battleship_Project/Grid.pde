@@ -333,7 +333,6 @@ class Grid{
   }
   void PLAYERplays(int mx, int my, int difficulty){ 
     boolean a; boolean aa; boolean aaa;
-    println("EHP " + EHP);println("FHP " + FHP); 
     if ((mx >= 1230 && mx <= 1410)){
       aaa = true;
     }
