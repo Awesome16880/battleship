@@ -333,6 +333,7 @@ class Grid{
   }
   void PLAYERplays(int mx, int my, int difficulty){ 
     boolean a; boolean aa; boolean aaa;
+    println("EHP " + EHP);println("FHP " + FHP); 
     if ((mx >= 1230 && mx <= 1410)){
       aaa = true;
     }
@@ -454,8 +455,9 @@ class Grid{
       }
     }
     else if (b != null && B == null && b.shotAt == false){
+      MOVES++;
       just_used_ability = false;
-      b.hit(true);
+      b.hit(true, false);
       if (b.state == HIT || b.state == BLACK){
         b.shotAt = true;
       }
@@ -466,7 +468,7 @@ class Grid{
     }
     if (COMPUTERplays == true && difficulty == VeryEasy){
       Box BB = computer_accessVERYEASY();
-      BB.hit(false);
+      BB.hit(false, true);
       if (BB.state == HIT || BB.state == BLACK){
         BB.shotAt = true;
       }
@@ -474,7 +476,7 @@ class Grid{
     }
     if (COMPUTERplays == true && difficulty == Easy){
       Box BB = computer_accessEASY();
-      BB.hit(false);
+      BB.hit(false, true);
       if (BB.state == HIT || BB.state == BLACK){
         BB.shotAt = true;
       }
@@ -483,7 +485,7 @@ class Grid{
     if (COMPUTERplays == true && difficulty == Normal){
       Box BB = computer_accessNORMAL(); 
       if (BB != null){
-        BB.hit(false);
+        BB.hit(false, true);
         if (BB.state == HIT || BB.state == BLACK){
           BB.shotAt = true;
         }
@@ -493,7 +495,7 @@ class Grid{
     if (COMPUTERplays == true && difficulty == Hard){
       Box BB = computer_accessHARD();
       if (BB != null){
-        BB.hit(false);
+        BB.hit(false, true);
         if (BB.state == HIT || BB.state == BLACK){
           BB.shotAt = true;
         }
@@ -503,7 +505,7 @@ class Grid{
     if (COMPUTERplays == true && difficulty == VeryHard){
       Box BB = computer_accessVERYHARD();
       if (BB != null){
-        BB.hit(false);
+        BB.hit(false, true);
         if (BB.state == HIT || BB.state == BLACK){
           BB.shotAt = true;
         }
@@ -517,7 +519,7 @@ class Grid{
     if (COMPUTERplays == true && difficulty == VeryVeryHard){
       Box BB = computer_accessVERYVERYHARD();
       if (BB != null){
-        BB.hit(false);
+        BB.hit(false, true);
         if (BB.state == HIT || BB.state == BLACK){
           BB.shotAt = true;
         }
@@ -530,12 +532,96 @@ class Grid{
     }
   }
   if (EHP <= 0 && played){
-    victory = true; showPage(VICTORY);
+    victory = true; 
+    if (MOVES <= 250){
+      a9 = true;
+    }
+    if (FHP <= 10){
+      a11 = true;
+    }
+    if (veryEasy == true){
+      a1 = true;
+    }
+    if (easy == true){
+      a2 = true;
+    }
+    if (normal == true){
+      a3 = true;
+    }
+    if (hard == true){
+      a4 = true;
+      if (SET_ABILITIES == 0){
+        a8 = true;
+      }
+    }
+    if (veryHard == true){
+      a5 = true;
+      if (SET_ABILITIES == 0){
+        a8 = true;
+      }
+    }
+    if (veryveryHard == true){
+      a6 = true;
+      if (SET_ABILITIES == 0){
+        a8 = true;
+      }
+    }
+    if (a1b == false && a1 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a1b = true;
+    }
+    if (a2b == false && a2 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a2b = true;
+    }
+    if (a3b == false && a3 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a3b = true;
+    }
+    if (a4b == false && a4 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a4b = true;
+    }
+    if (a5b == false && a5 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a5b = true;
+    }
+    if (a6b == false && a6 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a6b = true;
+    }
+    if (a7b == false && a7 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a7b = true;
+    }
+    if (a8b == false && a8 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a8b = true;
+    }
+    if (a9b == false && a9 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a9b = true;
+    }
+    if (a10b == false && a10 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a10b = true;
+    }
+    if (a11b == false && a11 == true){
+      TOTAL_ACH_THIS_ROUND++;
+      a11b = true;
+    }
+    showPage(VICTORY);
   }
   if (FHP <= 0 && played){
-    defeat = true; showPage(DEFEAT);
+    if (veryEasy == true && SET_ABILITIES == 6){
+      a7 = true;
+    }
+    defeat = true; 
   }
   if (defeat){
+    if (veryEasy == true && SET_ABILITIES == 6){
+      a7 = true;
+    }
     showPage(DEFEAT);
   }
 }
@@ -627,30 +713,37 @@ class Grid{
           bb.state = HEAVY_ARMOR;
         }
         if (T == AIRCRAFT_CARRIER){
+          bb.HP = 1;
           bb.shipState = AIRCRAFT_CARRIER;
           bb.state = GOLD;
         }
         if (T == PATROL_BOAT){
+          bb.HP = 1;
           bb.shipState = PATROL_BOAT;
           bb.state = SHIP;
         }
         if (T == DESTROYER){
+          bb.HP = 1;
           bb.shipState = DESTROYER;
           bb.state = DESTROYER;
         }
         if (T == HOSPITAL_SHIP){
+          bb.HP = 1;
           bb.shipState = HOSPITAL_SHIP;
           bb.state = HOSPITAL_SHIP;
         }
         if (T == RECONNAISSANCE_SHIP){
+          bb.HP = 1;
           bb.shipState = RECONNAISSANCE_SHIP;
           bb.state = RECONNAISSANCE_SHIP;
         }
         if (T == FRIGATE){
+          bb.HP = 1;
           bb.shipState = FRIGATE;
           bb.state = FRIGATE;
         }
         if (T == SUBMARINE){
+          bb.HP = 1;
           bb.shipState = SUBMARINE;
           bb.state = SUBMARINE;
         }
@@ -740,38 +833,47 @@ class Grid{
         ships.get(n).occupiedongrid.add(bb);        
         int T = ships.get(n).type;
         if (T == CRUISER){
+          bb.HP = 2;
           bb.shipState = CRUISER;
           bb.state = ARMOR;
         }
         if (T == BATTLESHIP){
+          bb.HP = 3;
           bb.shipState = BATTLESHIP;
           bb.state = HEAVY_ARMOR;
         }
         if (T == AIRCRAFT_CARRIER){
+          bb.HP = 1;
           bb.shipState = AIRCRAFT_CARRIER;
           bb.state = GOLD;
         }
         if (T == PATROL_BOAT){
+          bb.HP = 1;
           bb.shipState = PATROL_BOAT;
           bb.state = SHIP;
         }
         if (T == DESTROYER){
+          bb.HP = 1;
           bb.shipState = DESTROYER;
           bb.state = DESTROYER;
         }
         if (T == HOSPITAL_SHIP){
+          bb.HP = 1;
           bb.shipState = HOSPITAL_SHIP;
           bb.state = HOSPITAL_SHIP;
         }
         if (T == RECONNAISSANCE_SHIP){
+          bb.HP = 1;
           bb.shipState = RECONNAISSANCE_SHIP;
           bb.state = RECONNAISSANCE_SHIP;
         }
         if (T == FRIGATE){
+          bb.HP = 1;
           bb.shipState = FRIGATE;
           bb.state = FRIGATE;
         }
         if (T == SUBMARINE){
+          bb.HP = 1;
           bb.shipState = SUBMARINE;
           bb.state = SUBMARINE;
         }

@@ -120,15 +120,37 @@ class Box {
       display_hit();
     }
   }
-  void hit(boolean isPlayer) {
-    int s = this.HP; 
+  void hit(boolean isPlayer, boolean AA) {
+    int s = this.HP; boolean HH = false;
     this.HP = this.HP - 1;
+    if (hitstreak >= 10){
+      HH = true;
+      a10 = true;
+    }
     if (veryEasy){
       if ((s < -100 && this.state != HIT) || this.shipState == SUBMARINE){
         display_miss();
+        if (this.shipState == SUBMARINE){
+          if (isPlayer){
+            EHP--;
+            if (AA == false){
+              hitstreak++;
+              HH = true;
+            }
+          }
+          if (!isPlayer){
+            FHP--;
+          }
+        }
+        if (HH == false && AA == false){
+          hitstreak = 0;
+        }
       }
       else{
         display_hit();
+        if (AA == false && isPlayer){
+          hitstreak++;
+        }
         if (isPlayer){
           EHP--;
         }
@@ -140,6 +162,21 @@ class Box {
     if (!veryEasy){
       if ((s < -100 && this.state != HIT) || this.shipState == SUBMARINE) {
         display_miss();
+        if (this.shipState == SUBMARINE){
+          if (isPlayer){
+            EHP--;
+            if (AA == false){
+              hitstreak++;
+              HH = true;
+            }
+          }
+          if (!isPlayer){
+            FHP--;
+          }
+        }
+        if (HH == false && AA == false){
+          hitstreak = 0;
+        }
         if (isPlayer && veryHard && !just_used_ability && this.shipState != SUBMARINE){
           DEATH++;  
           ALLDEATH++;  
@@ -157,6 +194,9 @@ class Box {
       }
       else {
         display_hit();
+        if (AA == false && isPlayer){
+          hitstreak++;
+        }
         if (isPlayer){
           EHP--;
         }

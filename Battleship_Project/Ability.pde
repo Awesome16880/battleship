@@ -32,6 +32,7 @@ class Ability{
   }
   void use(){
     boolean f = this.Friendly;
+    hitstreak = 0;
     if (this.type == missiles){
       useMissiles(f);
     }
@@ -173,7 +174,7 @@ class Ability{
       }
     }
     for (int P = 0; P < targets.size(); P++){
-      targets.get(P).hit(f);
+      targets.get(P).hit(f, true);
     }
     targets.clear(); 
     if (f){
@@ -427,7 +428,7 @@ class Ability{
     else{}
     if (f && fmissiles){
       for (int ii = 0; ii < 75; ii++){
-        targets.get(ii).hit(f);
+        targets.get(ii).hit(f, true);
         if (targets.get(ii).state == BLACK || targets.get(ii).state == HIT){
           targets.get(ii).shotAt = true;
         }
@@ -435,7 +436,7 @@ class Ability{
     }
     if (!f && emissiles){
       for (int ii = 0; ii < 75; ii++){
-        targets.get(ii).hit(f);
+        targets.get(ii).hit(f, true);
         if (targets.get(ii).state == BLACK || targets.get(ii).state == HIT){
           targets.get(ii).shotAt = true;
           int index = targets.get(ii).repeat(possible_computer_targets, 0);

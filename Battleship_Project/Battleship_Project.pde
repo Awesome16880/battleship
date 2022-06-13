@@ -24,7 +24,8 @@ int A1 = 161; int A2 = 162;
 int S1 = 171; int S2 = 172;
 int R1 = 181; 
 int D1= 191; int D2 = 192;
-int SETTINGS = 102;
+int ACHIEVEMENTS = 102;
+int SETTINGS = 103;
 int MENU = 110;
 int PLAY = 120;
 int DEFEAT = 444;
@@ -35,6 +36,16 @@ Box target_basis = null;
 ArrayList<Box> possible_computer_targets = new ArrayList<Box>();
 ArrayList<Box> computer_targets = new ArrayList<Box>();
 ArrayList<Box> possible_targets = new ArrayList<Box>();
+
+//achievements
+boolean a1 = false; boolean a2 = false; boolean a3 = false; boolean a4 = false; boolean a5 = false; boolean a6 = false;
+boolean a7 = false; boolean a8 = false; boolean a9 = false; boolean a10 = false; boolean a11 = false; boolean a12 = false;
+int TOTAL_ACH_THIS_ROUND = 0;
+boolean a1b = false; boolean a2b = false; boolean a3b = false; boolean a4b = false; boolean a5b = false; boolean a6b = false;
+boolean a7b = false; boolean a8b = false; boolean a9b = false; boolean a10b = false; boolean a11b = false; boolean a12b = false;
+
+int MOVES = 0; 
+int hitstreak = 0;
 
 color BC = #00B0F4; //background color, lighter variant of sea blue
 color CYAN = #00FFFF; //cyan
@@ -122,10 +133,10 @@ void mouseClicked(){
   if (CURRENT_PAGE == HOME && mouseX >= 240 && mouseX <= 1290 && mouseY >= 400 && mouseY <= 480){
     showPage(MENU); 
   }
-  if (CURRENT_PAGE == HOME && mouseX >= 773 && mouseX <= 1290 && mouseY >= 500 && mouseY <= 560){
+  if (CURRENT_PAGE == HOME && mouseX >= 960 && mouseX <= 1290 && mouseY >= 500 && mouseY <= 560){
     showPage(SETTINGS);
   }
-  if ((CURRENT_PAGE == MENU || CURRENT_PAGE == HELP) && mouseX >= 10 && mouseX <= 160 && mouseY >= 10 && mouseY <= 50){
+  if ((CURRENT_PAGE == MENU || CURRENT_PAGE == HELP || CURRENT_PAGE == ACHIEVEMENTS) && mouseX >= 10 && mouseX <= 160 && mouseY >= 10 && mouseY <= 50){
     showPage(HOME);
   }
   if (CURRENT_PAGE == MENU && mouseX >= 240 && mouseX <= 1290 && mouseY >= 100 && mouseY <= 160){
@@ -147,22 +158,22 @@ void mouseClicked(){
     veryveryHard = true; showPage(PLAY); recorded_difficulty = VeryVeryHard;
   }
   if (in_play && mouseX >= 1230 && mouseX <= 1410 && mouseY >= 220 && mouseY <= 270 && fmissiles == true && ABILITIES > 0){
-    Fmissiles.use(); Fmissiles.off(); Fmissiles.display(); Fmissiles.turnOffLight(SET_ABILITIES); fmissiles = false; ABILITIES--; COMPUTERplays = true; 
+    MOVES++; Fmissiles.use(); Fmissiles.off(); Fmissiles.display(); Fmissiles.turnOffLight(SET_ABILITIES); fmissiles = false; ABILITIES--; COMPUTERplays = true; 
   }
   if (in_play && mouseX >= 1230 && mouseX <= 1410 && mouseY >= 290 && mouseY <= 340 && fbomb == true && ABILITIES > 0){
-    Fbomb.use(); Fbomb.off(); Fbomb.display(); Fbomb.turnOffLight(SET_ABILITIES); fbomb = false; ABILITIES--; COMPUTERplays = true; 
+    MOVES++; Fbomb.use(); Fbomb.off(); Fbomb.display(); Fbomb.turnOffLight(SET_ABILITIES); fbomb = false; ABILITIES--; COMPUTERplays = true; 
   }
   if (in_play && mouseX >= 1230 && mouseX <= 1410 && mouseY >= 360 && mouseY <= 410 && flaser == true && ABILITIES > 0){
-    Flaser.use(); Flaser.off(); Flaser.display(); Flaser.turnOffLight(SET_ABILITIES); flaser = false; ABILITIES--; COMPUTERplays = true;
+    MOVES++; Flaser.use(); Flaser.off(); Flaser.display(); Flaser.turnOffLight(SET_ABILITIES); flaser = false; ABILITIES--; COMPUTERplays = true;
   }
   if (in_play && mouseX >= 1230 && mouseX <= 1410 && mouseY >= 430 && mouseY <= 480 && fsonar == true && ABILITIES > 0){
-    Fsonar.use(); usedsonar = true; Fsonar.off(); Fsonar.display(); Fsonar.turnOffLight(SET_ABILITIES); fsonar = false; ABILITIES--; COMPUTERplays = true; 
+    MOVES++; Fsonar.use(); usedsonar = true; Fsonar.off(); Fsonar.display(); Fsonar.turnOffLight(SET_ABILITIES); fsonar = false; ABILITIES--; COMPUTERplays = true; 
   }
   if (in_play && mouseX >= 1230 && mouseX <= 1410 && mouseY >= 500 && mouseY <= 550 && fspontaneousexplosion == true && ABILITIES > 0){
-    Fspontaneousexplosion.use(); Fspontaneousexplosion.off(); Fspontaneousexplosion.display(); Fspontaneousexplosion.turnOffLight(SET_ABILITIES); fspontaneousexplosion = false; ABILITIES--; COMPUTERplays = true;
+    MOVES++; Fspontaneousexplosion.use(); Fspontaneousexplosion.off(); Fspontaneousexplosion.display(); Fspontaneousexplosion.turnOffLight(SET_ABILITIES); fspontaneousexplosion = false; ABILITIES--; COMPUTERplays = true;
   }
   if (in_play && mouseX >= 1230 && mouseX <= 1410 && mouseY >= 570 && mouseY <= 620 && freconnaissance == true && ABILITIES > 0){
-    Freconnaissance.use(); Freconnaissance.off(); Freconnaissance.display(); Freconnaissance.turnOffLight(SET_ABILITIES); freconnaissance = false; ABILITIES--; COMPUTERplays = true;
+    MOVES++; Freconnaissance.use(); Freconnaissance.off(); Freconnaissance.display(); Freconnaissance.turnOffLight(SET_ABILITIES); freconnaissance = false; ABILITIES--; COMPUTERplays = true;
   }
   if (in_play && veryEasy){
     Egrid.PLAYERplays(mouseX, mouseY, VeryEasy);
@@ -244,7 +255,7 @@ void mouseClicked(){
   if ((CURRENT_PAGE == DEFEAT || CURRENT_PAGE == VICTORY) && mouseX >= 240 && mouseX <= 1290 && mouseY >= 400 && mouseY <= 480){
     victory = false; defeat = false; played = false; showPage(HOME);
   }
-  if (CURRENT_PAGE == HOME && mouseX >= 240 && mouseX <= 758 && mouseY >= 500 && mouseY <= 560){
+  if (CURRENT_PAGE == HOME && mouseX >= 240 && mouseX <= 570 && mouseY >= 500 && mouseY <= 560){
     showPage(HELP);
   }
   if (CURRENT_PAGE == HELP && mouseX >= 240 && mouseX <= 1290 && mouseY >= 200 && mouseY <= 260){
@@ -279,6 +290,9 @@ void mouseClicked(){
   }
   if (CURRENT_PAGE == HELP && mouseX >= 240 && mouseX <= 1290 && mouseY >= 360 && mouseY <= 420){
     showPage(R1);
+  }
+  if (CURRENT_PAGE == HOME && mouseX >= 600 && mouseX <= 930 && mouseY >= 500 && mouseY <= 560){
+    showPage(ACHIEVEMENTS);
   }
 }
 
@@ -344,6 +358,76 @@ void showPage(){
     setUpFinishedGame();
     setUpVictory();
   }
+  else if (CURRENT_PAGE == ACHIEVEMENTS){
+    setUpAchievements();
+  }
+}
+void setUpAchievements(){
+  background(0);
+  fill(#CD7F32); 
+  rect(10, 10, 150, 40);
+  textSize(45);
+  fill(#A45EE5); //amethyst
+  text("ACHIEVEMENTS", 580, 60);
+  fill(#B65FCF); //lilac
+  textSize(25);
+  text("Win 1 game with Brain-dead difficulty.", 120, 200);
+  text("Win 1 game with Simple difficulty.", 120, 290);
+  text("Win 1 game with Balanced difficulty.", 120, 380);
+  text("Win 1 game with Challenger difficulty.", 120, 470);
+  text("Win 1 game with Fiendish difficulty.", 120, 560);
+  text("Win 1 game with Apocalyptic difficulty.", 120, 650);
+  text("               means completed.            means uncompleted.", 100, 110);
+  text("Use all 6 abilities and somehow lose a game with Brain-dead difficulty.", 670, 200);
+  text("Win a game with Challenger difficulty or above, starting with 0 abilities.", 670, 290);
+  text("Win a game in 250 moves or less.", 670, 380);
+  text("Score 10 hits in a row without using any abilities in between.", 670, 470);
+  text("Narrowly win a game.", 670, 560);
+  text("Complete at least 2 other achievements in the same round.", 670, 650);
+  fill(#00FF00); 
+  text("Green", 100, 110);
+  fill(#FF0000);
+  text("Red", 380, 110);
+  textSize(30);
+  if (a1){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("1. Look, Daddy, I won!", 100, 170);
+  if (a2){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("2. Winner Winner Chicken Dinner!", 100, 260);
+  if (a3){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("3. Upsetting the Balance", 100, 350);
+  if (a4){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("4. The New Champion", 100, 440);
+  if (a5){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("5. The Reckoning of Hell", 100, 530);
+  if (a6){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("6. The Impossible is Possible...Somehow", 100, 620);
+  if (a7){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("7. Biggest L Ever", 650, 170);
+  if (a8){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("8. POGGERS", 650, 260);
+  if (a9){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("9. Blitzkrieg", 650, 350);
+  if (a10){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("10. Ten In A Row", 650, 440);
+  if (a11){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("11. Too Close for Comfort", 650, 530);
+  if (a12){fill(#00FF00);} 
+  else{fill(#FF0000);} 
+  text("12. Two Birds, One Stone", 650, 620);
+  fill(0);
+  textSize(20);
+  text("Back", 60, 35);
 }
 void setUpR1(){ 
   background(0);
@@ -605,6 +689,19 @@ void setUpFinishedGame(){
   fmissiles = false; fbomb = false; flaser = false; fsonar = false; fspontaneousexplosion = false; freconnaissance = false;
   emissiles = false; ebomb = false; elaser = false; esonar = false; espontaneousexplosion = false; ereconnaissance = false;
   veryEasy = false; easy = false; normal = false; hard = false; veryHard = false; veryveryHard = false; DEATH = 0; ALLDEATH = 0;
+  MOVES = 0;
+  if (hitstreak >= 10){
+    a10 = true;
+    if (a10b == false){
+      TOTAL_ACH_THIS_ROUND++;
+      a10b = true;
+    }
+  }
+  if (TOTAL_ACH_THIS_ROUND >= 2){
+    a12 = true;
+    a12b = true;
+  }
+  hitstreak = 0; TOTAL_ACH_THIS_ROUND = 0;
 }
 void setUpSettings(){
   background(#CD7F32);
@@ -662,24 +759,32 @@ void setUpHome(){
   text("BATTLESHIP", 449, 140);
   textSize(75);
   text("Special Edition", 549, 220);
-  fill(#800080); //violet
+  fill(#800080); //purple
   textSize(45);
   text("Made by and Developed by Nelson So", 439, 280);
   textSize(25);
   text("via Java Processing", 665, 320);
+  strokeWeight(8);
+  stroke(#4B0082); //indigo
+  line(240, 360, 1290, 360);
+  strokeWeight(1);
+  stroke(0);
   textSize(45);
   fill(#00FF00);
   rect(240, 400, 1050, 80);
   fill(0);
   text("PLAY", 725, 455);
   fill(#FF7F00); //orange
-  rect(240, 500, 518, 60);
+  rect(240, 500, 330, 60);
   fill(#C0C0C0); //silver
-  rect(773, 500, 518, 60);
+  rect(960, 500, 330, 60);
+  fill(#710193); //violet
+  rect(600, 500, 330, 60);
   fill(0);
   textSize(30);
-  text("Help", 460, 540);
-  text("Settings", 960, 540);
+  text("Help", 380, 540);
+  text("Settings", 1060, 540);
+  text("Achievements", 675, 540);
 }
 void setUpPlay(){
   ABILITIES = SET_ABILITIES;
