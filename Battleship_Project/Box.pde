@@ -362,19 +362,19 @@ class Box {
       fill(#696969);
     }  
     else if (state == HOSPITAL_SHIP) {
-      fill(#FF7700);
+      fill(#B19CD9);
     } 
     else if (state == RECONNAISSANCE_SHIP) {
-      fill(#78866B);
+      fill(#B19CD9);
     } 
     else if (state == DESTROYER) {
-      fill(#0000FF);
+      fill(#B19CD9);
     } 
     else if (state == FRIGATE) {
-      fill(#00FFFF);
+      fill(#B19CD9);
     } 
     else if (state == AIRCRAFT_CARRIER){
-      fill(#FFDB51);
+      fill(#B19CD9);
     }
     square(x, y, side);
   }
